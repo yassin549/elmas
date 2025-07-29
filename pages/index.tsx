@@ -1,0 +1,137 @@
+import React from 'react';
+import Image from 'next/image';
+
+const ProductPage = () => {
+  const infoLinks = [
+    'DIMENSIONS DU PRODUIT',
+    'COMPOSITION & ENTRETIEN',
+    'VOIR DISPONIBILITÉ EN MAGASIN',
+    'LIVRAISON, ÉCHANGE ET RETOURS',
+  ];
+
+  const galleryImages = [
+    '/images/products/2.webp',
+    '/images/products/3.webp',
+    '/images/products/4.webp',
+    '/images/products/5.webp',
+  ];
+
+  return (
+    <div className="bg-white font-sans text-[#1C1C1C]">
+      <div className="max-w-[1200px] mx-auto px-5">
+        {/* 1. HERO SECTION */}
+        <section className="relative -top-[60px] flex items-center gap-[50px] pb-8">
+          {/* Left Column: Main Image */}
+          <div className="w-[600px]">
+            <Image
+              src="/images/products/1.webp"
+              alt="TOP EN POPELINE À FLEURS"
+              width={600}
+              height={900} // Example height, will be auto
+              className="w-full h-auto object-cover"
+            />
+          </div>
+
+          {/* Right Column: Product Details */}
+          <div className="w-[580px] flex flex-col justify-center">
+            <div className="flex justify-between items-baseline mb-[10px]">
+              <h1 className="text-2xl font-bold uppercase">
+                TOP EN POPELINE À FLEURS
+              </h1>
+              <svg
+                className="w-5 h-5 text-black"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1"
+                  d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+                ></path>
+              </svg>
+            </div>
+            <p className="text-lg font-normal">139,00 TND</p>
+            <hr className="border-t border-black my-3" />
+            <p className="text-xs text-[#6E6E6E] mb-5">JUNE | 2727019/119</p>
+            <button className="h-[44px] w-full text-sm uppercase border border-black bg-white px-5 mb-[30px]">
+              AJOUTER
+            </button>
+            <div className="text-sm leading-relaxed font-normal mb-[25px]">
+              <p>Top à manches longues larges. Coupe ample. Fermeture réglable sur le devant avec lien. Encolure en V. 100% coton.</p>
+              <p>Jupe taille haute. Lien décoratif à la ceinture. Taille élastique. Doublée. 100% coton.</p>
+            </div>
+            <div className="flex flex-col space-y-2">
+              {infoLinks.map((link) => (
+                <a href="#" key={link} className="text-xs uppercase text-[#6E6E6E] no-underline">
+                  {link}
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 2. GALLERY SECTION */}
+        <section className="py-8">
+          <div className="grid grid-cols-2 gap-x-[30px] gap-y-[30px]">
+            {/* Row 1 */}
+            <div className="w-[570px] h-[855px] flex items-center justify-center bg-white p-8 text-center">
+              <div className="text-sm leading-relaxed">
+                <p className="font-bold">TOP</p>
+                <p>- Wide long sleeves</p>
+                <p>- Relaxed fit</p>
+                <p>- Adjustable tie up design on front</p>
+                <p>- V-neckline</p>
+                <p>- 100% Cotton</p>
+                <br />
+                <p className="font-bold">SKIRT</p>
+                <p>- High waisted</p>
+                <p>- Decorative tie on waistband</p>
+                <p>- Elastic waistband</p>
+                <p>- Lined</p>
+                <p>- 100% Cotton</p>
+              </div>
+            </div>
+            <div className="w-[570px]">
+              <Image src="/images/products/3.webp" alt="Gallery image 2" width={570} height={855} className="w-full h-auto object-cover bg-white" />
+            </div>
+
+            {/* Row 2 */}
+            <div className="w-[570px]">
+              <Image src="/images/products/2.webp" alt="Gallery image 1" width={570} height={855} className="w-full h-auto object-cover bg-white" />
+            </div>
+            <div className="w-[570px]">
+              <Image src="/images/products/5.webp" alt="Gallery image 4" width={570} height={855} className="w-full h-auto object-cover bg-white" />
+            </div>
+          </div>
+
+          {/* Centered 3rd Row */}
+          <div className="flex justify-center mt-[30px]">
+            <div className="w-[570px]">
+              <Image src="/images/products/6.webp" alt="Gallery image 5" width={570} height={855} className="w-full h-auto object-cover bg-white" />
+            </div>
+          </div>
+        </section>
+
+        {/* 3. NEWSLETTER FOOTER */}
+        <section className="text-center py-12">
+          <h2 className="text-base font-bold text-[#1C1C1C] mb-[10px]">
+            ABONNEZ-VOUS À NOTRE NEWSLETTER
+          </h2>
+          <div className="flex justify-center">
+            <input
+              type="email"
+              placeholder="Entrez votre e-mail"
+              className="w-[300px] h-[36px] border-b border-black text-center placeholder-[#6E6E6E] focus:outline-none"
+            />
+          </div>
+        </section>
+      </div>
+      {/* 4. GLOBAL FOOTER will be rendered by MainLayout */}
+    </div>
+  );
+};
+
+export default ProductPage;
