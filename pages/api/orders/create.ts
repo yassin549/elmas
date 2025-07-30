@@ -1,97 +1,102 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import { db } from '@/lib/db'
-import { Order } from '@/types'
-import { v4 as uuidv4 } from 'uuid'
+import type { NextApiRequest, NextApiResponse } from 'next';
+import fs from 'fs/promises';
+import path from 'path';
 
-interface OrderRequest extends NextApiRequest {
-  body: {
-    items: Array<{
-      productId: string
-      quantity: number
-      price: number
-    }>
-    shippingAddress: {
-      fullName: string
-      addressLine1: string
-      city: string
-      postalCode: string
-      country: string
-    }
-    total: number
-  }
+// Define the structure for shipping and cart items for type safety
+interface ShippingDetails {
+  firstName: string;
+  lastName: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+  email: string;
 }
 
-export default async function handler(req: OrderRequest, res: NextApiResponse) {
+interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+// Define the structure of an order
+interface Order {
+  id: string;
+  createdAt: string;
+  shipping: ShippingDetails;
+  items: CartItem[];
+  total: number;
+}
+
+// Define the structure of the API response
+type Data = {
+  message: string;
+  order?: Order;
+};
+
+// Path to the mock database file in a writable directory
+const ordersFilePath = path.join(process.cwd(), 'data', 'orders.json');
+
+// Ensure the data directory exists
+const ensureDataDirExists = async () => {
+  try {
+    await fs.mkdir(path.dirname(ordersFilePath), { recursive: true });
+  } catch (error) {
+    // Ignore error if directory already exists, but log others
+    if ((error as NodeJS.ErrnoException).code !== 'EEXIST') {
+      console.error('Error creating data directory:', error);
+    }
+  }
+};
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<Data>
+) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' })
+    res.setHeader('Allow', ['POST']);
+    return res.status(405).json({ message: `Method ${req.method} Not Allowed` });
   }
 
   try {
-    const { items: requestItems, shippingAddress, total } = req.body
+    await ensureDataDirExists();
+
+    const { shipping, items, total } = req.body;
 
     // Basic validation
-    if (!requestItems || requestItems.length === 0) {
-      return res.status(400).json({ error: 'No items in order' })
+    if (!shipping || !items || !Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({ message: 'Missing required order data.' });
     }
 
-    if (
-      !shippingAddress ||
-      !shippingAddress.fullName ||
-      !shippingAddress.addressLine1
-    ) {
-      return res.status(400).json({ error: 'Invalid shipping address' })
-    }
-
-    // Generate order ID
-    const orderId = uuidv4()
-
-    // Create order
-    // Fetch all products to enrich the order items
-    const { products } = await db.read()
-    const productsMap = new Map(products.map(p => [p.id, p]))
-
-    const items: Order['items'] = requestItems.map(item => {
-      const product = productsMap.get(item.productId)
-      if (!product) {
-        throw new Error(`Product with id ${item.productId} not found`)
-      }
-      return {
-        ...product,
-        quantity: item.quantity,
-      }
-    })
-
-    // Create order
-    const order: Order = {
-      id: orderId,
-      items,
-      shippingAddress,
-      total,
-      status: 'Processing',
+    const newOrder: Order = {
+      id: `ord_${new Date().getTime()}`,
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      paymentMethod: 'Cash on Delivery',
-    }
+      shipping,
+      items,
+      total,
+    };
 
-    // Save order to database and update stock
-    const data = await db.read()
-
-    // Add the new order
-    data.orders.push(order)
-
-    // Update product stock
-    for (const item of items) {
-      const product = data.products.find(p => p.id === item.id)
-      if (product) {
-        product.stock -= item.quantity
+    let orders: Order[] = [];
+    try {
+      const fileData = await fs.readFile(ordersFilePath, 'utf-8');
+      orders = JSON.parse(fileData);
+    } catch (error) {
+      // If the file doesn't exist, we'll create it. This is expected.
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') {
+        throw error; // Rethrow unexpected errors
       }
     }
 
-    await db.write(data)
+    orders.push(newOrder);
 
-    res.status(201).json({ order })
+    await fs.writeFile(ordersFilePath, JSON.stringify(orders, null, 2));
+
+    return res
+      .status(201)
+      .json({ message: 'Order created successfully!', order: newOrder });
   } catch (error) {
-    console.error('Order creation error:', error)
-    res.status(500).json({ error: 'Failed to create order' })
+    console.error('Failed to process order:', error);
+    return res.status(500).json({ message: 'Internal Server Error' });
   }
 }

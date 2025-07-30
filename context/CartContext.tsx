@@ -10,7 +10,7 @@ import { CartItem, Product } from '@/types'
 interface CartContextType {
   cartItems: CartItem[]
   isCartOpen: boolean
-  addToCart: (product: Product, quantity: number) => void
+  addToCart: (product: Product & { quantity: number }) => void
   removeFromCart: (productId: string) => void
   updateQuantity: (productId: string, quantity: number) => void
   toggleCart: () => void
@@ -48,20 +48,27 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     localStorage.setItem('liquid-glass-cart', JSON.stringify(cartItems))
   }, [cartItems])
 
-  const addToCart = (product: Product, quantity: number) => {
+  const addToCart = (product: Product & { quantity: number }) => {
     setCartItems(prevItems => {
-      const existingItem = prevItems.find(item => item.id === product.id)
+      const existingItem = prevItems.find(item => item.id === product.id);
+
+      const productPrice = parseFloat(String(product.price)) || 0;
+      const productQuantity = product.quantity || 1;
+
       if (existingItem) {
         return prevItems.map(item =>
           item.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
+            ? { ...item, quantity: (item.quantity || 0) + productQuantity }
             : item
-        )
+        );
       } else {
-        return [...prevItems, { ...product, quantity }]
+        return [
+          ...prevItems,
+          { ...product, price: productPrice, quantity: productQuantity },
+        ];
       }
-    })
-  }
+    });
+  };
 
   const removeFromCart = (productId: string) => {
     setCartItems(prevItems => prevItems.filter(item => item.id !== productId))

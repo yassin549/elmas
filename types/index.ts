@@ -13,11 +13,13 @@ export interface CartItem extends Product {
 }
 
 export interface Address {
-  fullName: string
-  addressLine1: string
-  city: string
-  postalCode: string
-  country: string
+  firstName: string;
+  lastName: string;
+  email: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
 }
 
 export type OrderStatus =
@@ -31,7 +33,7 @@ export interface Order {
   id: string
   items: CartItem[]
   total: number
-  shippingAddress: Address
+  shipping: Address
   paymentMethod: 'Credit Card' | 'Cash on Delivery'
   status: OrderStatus
   createdAt: string

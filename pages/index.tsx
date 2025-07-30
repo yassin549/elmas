@@ -1,7 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
+import { useCart } from '@/context/CartContext';
+import AddToCartNotification from '@/components/AddToCartNotification';
+import { AnimatePresence } from 'framer-motion';
 
 const ProductPage = () => {
+  const { addToCart } = useCart();
+  const [showNotification, setShowNotification] = useState(false);
+
+  const product = {
+    id: '2727019-119',
+    name: 'TOP EN POPELINE À FLEURS',
+    price: 139.00,
+    image: '/images/products/1.webp',
+    quantity: 1,
+  };
+
+  const handleAddToCart = () => {
+    addToCart(product);
+    setShowNotification(true);
+    setTimeout(() => {
+      setShowNotification(false);
+    }, 5000); // Auto-hide after 5 seconds
+  };
+
   const infoLinks = [
     'DIMENSIONS DU PRODUIT',
     'COMPOSITION & ENTRETIEN',
@@ -20,23 +42,23 @@ const ProductPage = () => {
     <div className="bg-white font-sans text-[#1C1C1C]">
       <div className="max-w-[1200px] mx-auto px-5">
         {/* 1. HERO SECTION */}
-        <section className="relative -top-[60px] flex items-center gap-[50px] pb-8">
+        <section className="relative -top-[60px] flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-[50px] pt-8 pb-8">
           {/* Left Column: Main Image */}
-          <div className="w-[600px]">
+          <div className="w-full md:w-1/2">
             <Image
-              src="/images/products/1.webp"
-              alt="TOP EN POPELINE À FLEURS"
+              src={product.image}
+              alt={product.name}
               width={600}
-              height={900} // Example height, will be auto
+              height={900}
               className="w-full h-auto object-cover"
             />
           </div>
 
           {/* Right Column: Product Details */}
-          <div className="w-[580px] flex flex-col justify-center">
+          <div className="w-full md:w-1/2 flex flex-col justify-center">
             <div className="flex justify-between items-baseline mb-[10px]">
               <h1 className="text-2xl font-bold uppercase">
-                TOP EN POPELINE À FLEURS
+                {product.name}
               </h1>
               <svg
                 className="w-5 h-5 text-black"
@@ -53,10 +75,13 @@ const ProductPage = () => {
                 ></path>
               </svg>
             </div>
-            <p className="text-lg font-normal">139,00 TND</p>
+            <p className="text-lg font-normal">{product.price.toFixed(2)} TND</p>
             <hr className="border-t border-black my-3" />
-            <p className="text-xs text-[#6E6E6E] mb-5">JUNE | 2727019/119</p>
-            <button className="h-[44px] w-full text-sm uppercase border border-black bg-white px-5 mb-[30px]">
+            <p className="text-xs text-[#6E6E6E] mb-5">JUNE | {product.id}</p>
+            <button
+              onClick={handleAddToCart}
+              className="h-[44px] w-full text-sm uppercase border border-black bg-white px-5 mb-[30px] hover:bg-black hover:text-white transition-colors duration-300"
+            >
               AJOUTER
             </button>
             <div className="text-sm leading-relaxed font-normal mb-[25px]">
@@ -75,9 +100,9 @@ const ProductPage = () => {
 
         {/* 2. GALLERY SECTION */}
         <section className="py-8">
-          <div className="grid grid-cols-2 gap-x-[30px] gap-y-[30px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-[30px]">
             {/* Row 1 */}
-            <div className="w-[570px] h-[855px] flex items-center justify-center bg-white p-8 text-center">
+            <div className="w-full flex items-center justify-center bg-white p-8 text-center">
               <div className="text-sm leading-relaxed">
                 <p className="font-bold">TOP</p>
                 <p>- Wide long sleeves</p>
@@ -94,23 +119,23 @@ const ProductPage = () => {
                 <p>- 100% Cotton</p>
               </div>
             </div>
-            <div className="w-[570px]">
+            <div className="w-full">
               <Image src="/images/products/3.webp" alt="Gallery image 2" width={570} height={855} className="w-full h-auto object-cover bg-white" />
             </div>
 
             {/* Row 2 */}
-            <div className="w-[570px]">
+            <div className="w-full">
               <Image src="/images/products/2.webp" alt="Gallery image 1" width={570} height={855} className="w-full h-auto object-cover bg-white" />
             </div>
-            <div className="w-[570px]">
+            <div className="w-full">
               <Image src="/images/products/5.webp" alt="Gallery image 4" width={570} height={855} className="w-full h-auto object-cover bg-white" />
             </div>
-          </div>
 
-          {/* Centered 3rd Row */}
-          <div className="flex justify-center mt-[30px]">
-            <div className="w-[570px]">
-              <Image src="/images/products/6.webp" alt="Gallery image 5" width={570} height={855} className="w-full h-auto object-cover bg-white" />
+            {/* Centered 5th Item */}
+            <div className="md:col-span-2 flex justify-center">
+              <div className="w-full md:w-[calc(50%-15px)]">
+                <Image src="/images/products/6.webp" alt="Gallery image 5" width={570} height={855} className="w-full h-auto object-cover bg-white" />
+              </div>
             </div>
           </div>
         </section>
@@ -124,12 +149,17 @@ const ProductPage = () => {
             <input
               type="email"
               placeholder="Entrez votre e-mail"
-              className="w-[300px] h-[36px] border-b border-black text-center placeholder-[#6E6E6E] focus:outline-none"
+              className="w-full max-w-sm h-[36px] border-b border-black text-center placeholder-[#6E6E6E] focus:outline-none"
             />
           </div>
         </section>
       </div>
       {/* 4. GLOBAL FOOTER will be rendered by MainLayout */}
+      <AnimatePresence>
+        {showNotification && (
+          <AddToCartNotification onClose={() => setShowNotification(false)} />
+        )}
+      </AnimatePresence>
     </div>
   );
 };
