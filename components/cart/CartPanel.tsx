@@ -1,23 +1,29 @@
-import React from 'react';
-import { useCart } from '@/context/CartContext';
-import { FiX, FiPlus, FiMinus } from 'react-icons/fi';
-import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
+import React from 'react'
+import { useCart } from '@/context/CartContext'
+import { FiX, FiPlus, FiMinus } from 'react-icons/fi'
+import Link from 'next/link'
+import { motion, AnimatePresence, Variants } from 'framer-motion'
+import Image from 'next/image'
 
 interface CartPanelProps {
-  isOpen: boolean;
-  onClose: () => void;
+  isOpen: boolean
+  onClose: () => void
 }
 
 const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
-  const { cartItems, removeFromCart, updateQuantity, cartTotal } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, cartTotal } = useCart()
 
-  const panelVariants = {
+  const panelVariants: Variants = {
     hidden: { x: '100%' },
-    visible: { x: '0%', transition: { duration: 0.4, ease: 'easeInOut' } },
-    exit: { x: '100%', transition: { duration: 0.3, ease: 'easeInOut' } },
-  };
+    visible: {
+      x: '0%',
+      transition: { duration: 0.6, ease: [0.6, 0.05, 0.01, 0.9] },
+    },
+    exit: {
+      x: '100%',
+      transition: { duration: 0.4, ease: [0.6, 0.05, 0.01, 0.9] },
+    },
+  }
 
   return (
     <AnimatePresence>
@@ -36,7 +42,9 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
           >
             {/* Header */}
             <div className='p-5 flex justify-between items-center border-b border-gray-200'>
-              <h2 className='text-lg font-semibold text-gray-800'>Shopping Bag</h2>
+              <h2 className='text-lg font-semibold text-gray-800'>
+                Shopping Bag
+              </h2>
               <button
                 onClick={onClose}
                 className='text-gray-500 hover:text-gray-800 transition-colors'
@@ -60,10 +68,10 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
                     <div className='w-20 h-28 bg-gray-100 relative rounded-md overflow-hidden'>
                       <Image
                         src={
-                  (item.images && item.images.length > 0)
-                    ? item.images[0]
-                    : '/placeholder.png'
-                }
+                          item.images && item.images.length > 0
+                            ? item.images[0]
+                            : '/placeholder.png'
+                        }
                         alt={item.name}
                         layout='fill'
                         objectFit='cover'
@@ -76,14 +84,20 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
                       </p>
                       <div className='flex items-center mt-4 text-sm'>
                         <button
-                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                          onClick={() =>
+                            updateQuantity(item.id, item.quantity - 1)
+                          }
                           className='h-8 w-8 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200 transition'
                         >
                           <FiMinus />
                         </button>
-                        <span className='px-4 font-medium'>{item.quantity}</span>
+                        <span className='px-4 font-medium'>
+                          {item.quantity}
+                        </span>
                         <button
-                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          onClick={() =>
+                            updateQuantity(item.id, item.quantity + 1)
+                          }
                           className='h-8 w-8 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200 transition'
                         >
                           <FiPlus />
@@ -125,8 +139,7 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
         </div>
       )}
     </AnimatePresence>
-  );
-};
+  )
+}
 
-export default CartPanel;
-
+export default CartPanel

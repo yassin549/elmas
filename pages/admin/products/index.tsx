@@ -20,7 +20,8 @@ const AdminProductPage = () => {
       // The API now returns an array with 0 or 1 products
       setProduct(data.products[0] || null)
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Could not load product.'
+      const message =
+        err instanceof Error ? err.message : 'Could not load product.'
       setError(message)
       toast.error(message)
     } finally {
@@ -52,7 +53,8 @@ const AdminProductPage = () => {
       toast.success(`Product ${product ? 'updated' : 'created'} successfully!`)
       fetchProduct() // Refresh data
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Could not save product.'
+      const message =
+        err instanceof Error ? err.message : 'Could not save product.'
       toast.error(message)
     } finally {
       setIsSubmitting(false)
@@ -61,15 +63,22 @@ const AdminProductPage = () => {
 
   const handleDelete = async () => {
     if (!product) return
-    if (window.confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
+    if (
+      window.confirm(
+        'Are you sure you want to delete this product? This action cannot be undone.'
+      )
+    ) {
       setIsSubmitting(true)
       try {
-        const response = await fetch(`/api/products/${product.id}`, { method: 'DELETE' })
+        const response = await fetch(`/api/products/${product.id}`, {
+          method: 'DELETE',
+        })
         if (!response.ok) throw new Error('Failed to delete product')
         toast.success('Product deleted successfully!')
         setProduct(null) // Immediately update UI
       } catch (err) {
-        const message = err instanceof Error ? err.message : 'Could not delete product.'
+        const message =
+          err instanceof Error ? err.message : 'Could not delete product.'
         toast.error(message)
       } finally {
         setIsSubmitting(false)
@@ -86,14 +95,16 @@ const AdminProductPage = () => {
     }
 
     const formTitle = product ? 'Edit Product' : 'Create Product'
-    const defaultValues = product ? {
-      name: product.name,
-      description: product.description,
-      category: product.category,
-      price: product.price,
-      quantity: product.quantity,
-      images: product.images,
-    } : {}
+    const defaultValues = product
+      ? {
+          name: product.name,
+          description: product.description,
+          category: product.category,
+          price: product.price,
+          quantity: product.quantity,
+          images: product.images,
+        }
+      : {}
 
     return (
       <>

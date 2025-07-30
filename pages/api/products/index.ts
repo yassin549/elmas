@@ -58,13 +58,7 @@ export default async function handler(
         const { name, description, price, images, category, quantity } =
           req.body
 
-        if (
-          !name ||
-          !price ||
-          !images ||
-          !category ||
-          quantity === undefined
-        ) {
+        if (!name || !price || !images || !category || quantity === undefined) {
           return res
             .status(400)
             .json({ message: 'Missing required product fields.' })

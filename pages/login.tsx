@@ -23,7 +23,10 @@ const LoginPage = () => {
     try {
       await login(email, password)
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Login failed. Please check your credentials.'
+      const message =
+        err instanceof Error
+          ? err.message
+          : 'Login failed. Please check your credentials.'
       setError(message)
     } finally {
       setIsLoading(false)
@@ -62,7 +65,10 @@ const LoginPage = () => {
           )}
 
           <div className='text-xs tracking-wider text-gray-500 text-right pt-2'>
-            <a href='#' className='hover:text-black dark:hover:text-white transition'>
+            <a
+              href='#'
+              className='hover:text-black dark:hover:text-white transition'
+            >
               FORGOT YOUR PASSWORD?
             </a>
           </div>
@@ -79,7 +85,10 @@ const LoginPage = () => {
         </form>
 
         <div className='mt-8 text-xs tracking-wider text-gray-500'>
-          <a href='#' className='hover:text-black dark:hover:text-white transition'>
+          <a
+            href='#'
+            className='hover:text-black dark:hover:text-white transition'
+          >
             NEED AN ACCOUNT? REGISTER
           </a>
         </div>

@@ -16,14 +16,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     let metrics
 
     if (product) {
-      const stockData = [{
-        id: product.id,
-        name: product.name,
-        stock: product.quantity,
-      }]
+      const stockData = [
+        {
+          id: product.id,
+          name: product.name,
+          stock: product.quantity,
+        },
+      ]
 
       const lowStockThreshold = 10
-      const lowStockProducts = product.quantity < lowStockThreshold && product.quantity > 0 ? [product] : []
+      const lowStockProducts =
+        product.quantity < lowStockThreshold && product.quantity > 0
+          ? [product]
+          : []
 
       metrics = {
         kpis: {

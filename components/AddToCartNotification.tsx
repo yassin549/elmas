@@ -1,12 +1,14 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
+import React from 'react'
+import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 interface AddToCartNotificationProps {
-  onClose: () => void;
+  onClose: () => void
 }
 
-const AddToCartNotification: React.FC<AddToCartNotificationProps> = ({ onClose }) => {
+const AddToCartNotification: React.FC<AddToCartNotificationProps> = ({
+  onClose,
+}) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -15,7 +17,9 @@ const AddToCartNotification: React.FC<AddToCartNotificationProps> = ({ onClose }
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
       className='fixed bottom-5 right-5 bg-white p-6 rounded-lg shadow-2xl w-80 border border-gray-200 z-50'
     >
-      <p className='text-lg font-semibold text-gray-800 mb-4'>Ajouté au panier!</p>
+      <p className='text-lg font-semibold text-gray-800 mb-4'>
+        Ajouté au panier!
+      </p>
       <div className='flex flex-col space-y-3'>
         <Link
           href='/checkout'
@@ -31,7 +35,7 @@ const AddToCartNotification: React.FC<AddToCartNotificationProps> = ({ onClose }
         </button>
       </div>
     </motion.div>
-  );
-};
+  )
+}
 
-export default AddToCartNotification;
+export default AddToCartNotification

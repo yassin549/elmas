@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { FiPlus, FiTrash2, FiUploadCloud } from 'react-icons/fi'
+import { FiTrash2, FiUploadCloud } from 'react-icons/fi'
 import toast from 'react-hot-toast'
+import Image from 'next/image'
 
 // Define the validation schema using Yup
 const schema = yup.object().shape({
@@ -23,7 +24,9 @@ const schema = yup.object().shape({
     .required('Stock is required'),
   images: yup
     .array()
-    .of(yup.string().url('Must be a valid URL').required('Image URL is required'))
+    .of(
+      yup.string().url('Must be a valid URL').required('Image URL is required')
+    )
     .min(1, 'At least one image is required')
     .required(),
 })
@@ -46,7 +49,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
 }) => {
   const {
     register,
-    control,
+
     handleSubmit,
     formState: { errors },
     setValue,
@@ -89,14 +92,22 @@ const ProductForm: React.FC<ProductFormProps> = ({
               {...register('description')}
               className={`${inputClass} h-24`}
             ></textarea>
-            {errors.description && <p className={errorClass}>{errors.description.message}</p>}
+            {errors.description && (
+              <p className={errorClass}>{errors.description.message}</p>
+            )}
           </div>
           <div>
             <label htmlFor='category' className={labelClass}>
               Category
             </label>
-            <input id='category' {...register('category')} className={inputClass} />
-            {errors.category && <p className={errorClass}>{errors.category.message}</p>}
+            <input
+              id='category'
+              {...register('category')}
+              className={inputClass}
+            />
+            {errors.category && (
+              <p className={errorClass}>{errors.category.message}</p>
+            )}
           </div>
         </div>
 
@@ -106,28 +117,44 @@ const ProductForm: React.FC<ProductFormProps> = ({
             <label htmlFor='price' className={labelClass}>
               Price
             </label>
-            <input id='price' type='number' step='0.01' {...register('price')} className={inputClass} />
-            {errors.price && <p className={errorClass}>{errors.price.message}</p>}
+            <input
+              id='price'
+              type='number'
+              step='0.01'
+              {...register('price')}
+              className={inputClass}
+            />
+            {errors.price && (
+              <p className={errorClass}>{errors.price.message}</p>
+            )}
           </div>
           <div>
             <label htmlFor='quantity' className={labelClass}>
               Stock
             </label>
-            <input id='quantity' type='number' {...register('quantity')} className={inputClass} />
-            {errors.quantity && <p className={errorClass}>{errors.quantity.message}</p>}
+            <input
+              id='quantity'
+              type='number'
+              {...register('quantity')}
+              className={inputClass}
+            />
+            {errors.quantity && (
+              <p className={errorClass}>{errors.quantity.message}</p>
+            )}
           </div>
         </div>
 
-                {/* Image Upload */}
+        {/* Image Upload */}
         <div>
           <label className={labelClass}>Images</label>
           <div className='mt-2 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4'>
             {images.map((image, index) => (
               <div key={index} className='relative group aspect-square'>
-                <img
+                <Image
                   src={image}
                   alt={`Product image ${index + 1}`}
-                  className='w-full h-full object-cover rounded-lg shadow-md'
+                  layout='fill'
+                  className='object-cover rounded-lg shadow-md'
                 />
                 <button
                   type='button'
@@ -150,7 +177,9 @@ const ProductForm: React.FC<ProductFormProps> = ({
               ) : (
                 <>
                   <FiUploadCloud className='w-8 h-8 text-gray-400' />
-                  <span className='mt-2 text-xs text-center text-gray-500'>Add Image</span>
+                  <span className='mt-2 text-xs text-center text-gray-500'>
+                    Add Image
+                  </span>
                 </>
               )}
               <input
@@ -158,7 +187,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
                 type='file'
                 accept='image/*'
                 className='hidden'
-                onChange={async (e) => {
+                onChange={async e => {
                   if (e.target.files && e.target.files[0]) {
                     const file = e.target.files[0]
                     const formData = new FormData()
@@ -173,7 +202,9 @@ const ProductForm: React.FC<ProductFormProps> = ({
                         throw new Error('Upload failed')
                       }
                       const data = await response.json()
-                      setValue('images', [...images, data.filePath], { shouldValidate: true })
+                      setValue('images', [...images, data.filePath], {
+                        shouldValidate: true,
+                      })
                       toast.success('Image uploaded successfully!')
                     } catch (error) {
                       toast.error('Image upload failed.')
@@ -185,7 +216,9 @@ const ProductForm: React.FC<ProductFormProps> = ({
               />
             </label>
           </div>
-          {errors.images && <p className={errorClass}>{errors.images.message}</p>}
+          {errors.images && (
+            <p className={errorClass}>{errors.images.message}</p>
+          )}
         </div>
 
         {/* Submit Button */}

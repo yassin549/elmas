@@ -76,8 +76,8 @@ const CheckoutPage = () => {
 
     try {
       // Submit order to API
-      const [firstName, ...lastNameParts] = formData.fullName.trim().split(' ');
-      const lastName = lastNameParts.join(' ');
+      const [firstName, ...lastNameParts] = formData.fullName.trim().split(' ')
+      const lastName = lastNameParts.join(' ')
 
       const response = await fetch('/api/orders/create', {
         method: 'POST',
@@ -102,7 +102,7 @@ const CheckoutPage = () => {
           })),
           total: cartTotal,
         }),
-      });
+      })
 
       if (!response.ok) {
         throw new Error('Failed to place order')
@@ -112,7 +112,7 @@ const CheckoutPage = () => {
       clearCart()
 
       // Redirect to confirmation page
-      router.push(`/order/success?orderId=${data.order.id}`);
+      router.push(`/order/success?orderId=${data.order.id}`)
     } catch (error) {
       toast.error('Failed to place order. Please try again.')
       console.error('Order submission error:', error)
@@ -149,7 +149,11 @@ const CheckoutPage = () => {
               Shipping Information
             </h2>
 
-            <form id='checkout-form' onSubmit={handleSubmit} className='space-y-6'>
+            <form
+              id='checkout-form'
+              onSubmit={handleSubmit}
+              className='space-y-6'
+            >
               {/* Personal Info */}
               <div className='space-y-4'>
                 <div>
@@ -296,7 +300,9 @@ const CheckoutPage = () => {
 
           {/* Order Summary (1/3 width) */}
           <div className='lg:col-span-1 bg-white rounded-xl shadow-md p-6 md:p-8 h-fit'>
-            <h2 className='text-2xl md:text-3xl font-bold mb-6 text-gray-800'>Order Summary</h2>
+            <h2 className='text-2xl md:text-3xl font-bold mb-6 text-gray-800'>
+              Order Summary
+            </h2>
 
             <div className='space-y-4'>
               {cartItems.map(item => (
@@ -320,7 +326,9 @@ const CheckoutPage = () => {
             <div className='mt-6 pt-6 border-t border-gray-200 space-y-3'>
               <div className='flex justify-between text-gray-600'>
                 <p>Subtotal</p>
-                <p className='font-medium text-gray-800'>${cartTotal.toFixed(2)}</p>
+                <p className='font-medium text-gray-800'>
+                  ${cartTotal.toFixed(2)}
+                </p>
               </div>
               <div className='flex justify-between text-gray-600'>
                 <p>Shipping</p>

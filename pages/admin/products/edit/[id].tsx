@@ -51,7 +51,8 @@ const EditProductPage = () => {
       toast.success('Product updated successfully!')
       router.push('/admin/products')
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Could not update product.'
+      const message =
+        err instanceof Error ? err.message : 'Could not update product.'
       toast.error(message)
     } finally {
       setIsSubmitting(false)
@@ -59,11 +60,19 @@ const EditProductPage = () => {
   }
 
   if (loading) {
-    return <AdminLayout><div>Loading...</div></AdminLayout>
+    return (
+      <AdminLayout>
+        <div>Loading...</div>
+      </AdminLayout>
+    )
   }
 
   if (!product) {
-    return <AdminLayout><div>Product not found.</div></AdminLayout>
+    return (
+      <AdminLayout>
+        <div>Product not found.</div>
+      </AdminLayout>
+    )
   }
 
   return (

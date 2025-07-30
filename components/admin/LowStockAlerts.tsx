@@ -27,7 +27,7 @@ const LowStockAlerts: React.FC<LowStockAlertsProps> = ({ products }) => {
             <div>
               <span className='font-semibold'>{product.name}</span>
               <span className='text-sm ml-2 opacity-80'>
-                ({product.stock} left)
+                ({product.quantity} left)
               </span>
             </div>
             <Link

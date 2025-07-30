@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import formidable from 'formidable'
+import formidable, { Fields, Files, Part } from 'formidable'
 import fs from 'fs'
 import path from 'path'
 
@@ -24,14 +24,16 @@ const uploadHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const form = formidable({
     uploadDir,
     keepExtensions: true,
-    filename: (name, ext, part, form) => {
+    filename: (name: string, ext: string, part: Part) => {
       return `${Date.now()}-${part.originalFilename}`
     },
   })
 
-  form.parse(req, (err, fields, files) => {
+  form.parse(req, (err: Error, fields: Fields, files: Files) => {
     if (err) {
-      return res.status(500).json({ message: 'File upload failed', error: err.message })
+      return res
+        .status(500)
+        .json({ message: 'File upload failed', error: err.message })
     }
 
     const file = files.file

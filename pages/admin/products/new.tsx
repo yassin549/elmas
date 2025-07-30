@@ -26,7 +26,8 @@ const NewProductPage = () => {
       toast.success('Product created successfully!')
       router.push('/admin/products')
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Could not create product.'
+      const message =
+        err instanceof Error ? err.message : 'Could not create product.'
       toast.error(message)
     } finally {
       setIsSubmitting(false)

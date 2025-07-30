@@ -105,10 +105,10 @@ const OrdersTable: React.FC<OrdersTableProps> = ({
                 <div className='flex items-center space-x-2'>
                   <div className='w-8 h-8 rounded-full bg-white/5 dark:bg-gray-800/50 flex items-center justify-center'>
                     <span className='text-xs font-semibold'>
-                      {order.shippingAddress.fullName[0]}
+                      {order.shipping.firstName[0]}
                     </span>
                   </div>
-                  {order.shippingAddress.fullName}
+                  {`${order.shipping.firstName} ${order.shipping.lastName}`}
                 </div>
               </td>
               <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-300 dark:text-gray-500'>
