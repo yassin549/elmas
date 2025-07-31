@@ -1,35 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import fs from 'fs/promises'
 import path from 'path'
-
-// Define the structure for shipping and cart items for type safety
-interface ShippingDetails {
-  firstName: string
-  lastName: string
-  address: string
-  city: string
-  postalCode: string
-  country: string
-  email: string
-}
-
-interface CartItem {
-  id: string
-  name: string
-  price: number
-  quantity: number
-  color: string
-  size: string
-}
-
-// Define the structure of an order
-interface Order {
-  id: string
-  createdAt: string
-  shipping: ShippingDetails
-  items: CartItem[]
-  total: number
-}
+import { Order } from '@/types'
 
 // Define the structure of the API response
 type Data = {
@@ -77,6 +49,8 @@ export default async function handler(
       shipping,
       items,
       total,
+      status: 'Pending',
+      paymentMethod: 'Cash on Delivery',
     }
 
     let orders: Order[] = []

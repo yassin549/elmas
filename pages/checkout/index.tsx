@@ -94,14 +94,7 @@ const CheckoutPage = () => {
             country: formData.country,
             email: formData.email,
           },
-          items: cartItems.map(item => ({
-            id: item.id,
-            name: item.name,
-            price: item.price,
-            quantity: item.quantity,
-            color: item.selectedColor,
-            size: item.selectedSize,
-          })),
+          items: cartItems,
           total: cartTotal,
         }),
       })

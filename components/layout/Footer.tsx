@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 
 import { FaFacebookF, FaPinterestP, FaInstagram } from 'react-icons/fa'
 import { FiArrowUp } from 'react-icons/fi'
@@ -10,22 +11,22 @@ const Footer = () => {
 
   const footerLinks = {
     'Customer Care': [
-      { name: 'Shipping & Delivery', href: '#' },
-      { name: 'Returns', href: '#' },
-      { name: 'Size Guide', href: '#' },
-      { name: 'Privacy Policy', href: '#' },
+      { name: 'Shipping & Delivery', href: '/about' },
+      { name: 'Returns', href: '/about' },
+      { name: 'Size Guide', href: '/about' },
+      { name: 'Privacy Policy', href: '/about' },
     ],
     Information: [
-      { name: 'Help And FAQs', href: '#' },
-      { name: 'Contact', href: '#' },
-      { name: 'Careers', href: '#' },
-      { name: 'Sustainability', href: '#' },
-      { name: 'Refund Policy', href: '#' },
-      { name: 'Student Discount', href: '#' },
-      { name: 'Blog', href: '#' },
-      { name: 'Terms Of Service', href: '#' },
-      { name: 'Promotions', href: '#' },
-      { name: 'About Us', href: '#' },
+      { name: 'Help And FAQs', href: '/about' },
+      { name: 'Contact', href: '/about' },
+      { name: 'Careers', href: '/about' },
+      { name: 'Sustainability', href: '/about' },
+      { name: 'Refund Policy', href: '/about' },
+      { name: 'Student Discount', href: '/about' },
+      { name: 'Blog', href: '/about' },
+      { name: 'Terms Of Service', href: '/about' },
+      { name: 'Promotions', href: '/about' },
+      { name: 'About Us', href: '/about' },
     ],
   }
 
@@ -42,24 +43,24 @@ const Footer = () => {
               Their Best, No Matter The Occasion.
             </p>
             <div className='flex space-x-3 pt-2'>
-              <a
-                href='#'
+              <Link
+                href='/about'
                 className='w-8 h-8 flex items-center justify-center bg-white text-gray-700 hover:bg-gray-200 transition-colors'
               >
                 <FaFacebookF />
-              </a>
-              <a
-                href='#'
+              </Link>
+              <Link
+                href='/about'
                 className='w-8 h-8 flex items-center justify-center bg-white text-gray-700 hover:bg-gray-200 transition-colors'
               >
                 <FaPinterestP />
-              </a>
-              <a
-                href='#'
+              </Link>
+              <Link
+                href='/about'
                 className='w-8 h-8 flex items-center justify-center bg-white text-gray-700 hover:bg-gray-200 transition-colors'
               >
                 <FaInstagram />
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -72,9 +73,9 @@ const Footer = () => {
               <ul className='space-y-2'>
                 {links.map(link => (
                   <li key={link.name}>
-                    <a href={link.href} className='text-xs hover:underline'>
+                    <Link href={link.href} className='text-xs hover:underline'>
                       {link.name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
