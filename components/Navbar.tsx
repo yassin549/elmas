@@ -4,7 +4,7 @@ import { FiSearch, FiShoppingBag, FiHeart } from 'react-icons/fi'
 import { useUI } from '@/context/UIContext'
 
 const Navbar: React.FC = () => {
-  const { cartCount, toggleCart, toggleWishlist } = useUI()
+  const { cartCount, toggleCart, toggleWishlist, toggleSideMenu } = useUI()
 
   return (
     <header className='relative top-0 left-0 w-full z-10 font-sans bg-white'>
@@ -15,7 +15,10 @@ const Navbar: React.FC = () => {
         <div className='flex items-center justify-between h-16 md:h-20'>
           {/* Left side: Hamburger */}
           <div className='flex-1 flex justify-start'>
-            <button className='text-gray-600 hover:text-gray-800 lg:hidden'>
+            <button
+              onClick={toggleSideMenu}
+              className='text-gray-600 hover:text-gray-800 lg:hidden'
+            >
               <svg
                 className='w-6 h-6'
                 fill='none'
@@ -37,7 +40,7 @@ const Navbar: React.FC = () => {
           <div className='flex-1 flex justify-center'>
             <Link
               href='/'
-              className='text-3xl font-sans tracking-[0.3em] uppercase'
+              className='text-2xl md:text-3xl font-sans tracking-[0.2em] md:tracking-[0.3em] uppercase'
             >
               Elmas
             </Link>
@@ -45,10 +48,10 @@ const Navbar: React.FC = () => {
 
           {/* Right side: Links */}
           <div className='flex-1 flex justify-end items-center'>
-            <div className='flex items-center justify-end space-x-4 md:space-x-6 text-sm tracking-wider'>
+            <div className='flex items-center justify-end space-x-3 md:space-x-6 text-sm tracking-wider'>
               <Link
                 href='/account'
-                className='hover:text-gray-700 font-semibold uppercase'
+                className='hidden md:block hover:text-gray-700 font-semibold uppercase'
               >
                 LOG IN
               </Link>

@@ -187,10 +187,7 @@ const ProductPage = () => {
 
   return (
     <div className='bg-white overflow-x-hidden'>
-      <div
-        className='max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12'
-        style={{ maxWidth: '80%' }}
-      >
+      <div className='max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12'>
         <motion.div
           className='mb-6'
           initial='hidden'
@@ -230,7 +227,7 @@ const ProductPage = () => {
             <ProductInfoAccordion />
           </motion.div>
         </div>
-        <div className='mt-16'>
+        <div className='mt-12 md:mt-16'>
           <CustomerReviews product={product} />
         </div>
       </div>

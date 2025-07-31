@@ -36,8 +36,8 @@ const NewProductPage = () => {
 
   return (
     <AdminLayout>
-      <div className='bg-white dark:bg-gray-900 p-6 sm:p-8 rounded-xl shadow-lg font-sans'>
-        <div className='flex justify-between items-center mb-8'>
+      <div className='bg-white dark:bg-gray-900 p-4 md:p-8 rounded-xl shadow-lg font-sans'>
+        <div className='flex flex-col sm:flex-row justify-between sm:items-center mb-8 gap-4 sm:gap-0'>
           <h1 className='text-2xl sm:text-3xl font-semibold text-gray-800 dark:text-white'>
             Create New Product
           </h1>

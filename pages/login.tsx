@@ -36,7 +36,7 @@ const LoginPage = () => {
   return (
     <div className='font-sans flex flex-col items-center justify-center min-h-screen bg-white dark:bg-black text-black dark:text-white px-4'>
       <div className='w-full max-w-sm text-center'>
-        <h1 className='text-lg font-normal tracking-widest uppercase mb-12'>
+        <h1 className='text-lg font-normal tracking-widest uppercase mb-8 md:mb-12'>
           LOG IN
         </h1>
 

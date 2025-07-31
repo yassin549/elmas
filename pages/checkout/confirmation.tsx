@@ -22,11 +22,11 @@ const OrderConfirmationDisplay: React.FC<OrderConfirmationProps> = ({
   shippingAddress,
 }) => {
   return (
-    <div className='container mx-auto px-4 py-16'>
+    <div className='container mx-auto px-4 py-8 md:py-16'>
       <div className='max-w-4xl mx-auto'>
         <div className='text-center mb-12'>
-          <FiCheckCircle className='w-24 h-24 mx-auto text-green-400 mb-4' />
-          <h1 className='text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 mb-4'>
+          <FiCheckCircle className='w-16 h-16 md:w-24 md:h-24 mx-auto text-green-400 mb-4' />
+          <h1 className='text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 mb-4'>
             Thank You for Your Order!
           </h1>
           <p className='text-gray-400'>
@@ -34,7 +34,7 @@ const OrderConfirmationDisplay: React.FC<OrderConfirmationProps> = ({
           </p>
         </div>
 
-        <div className='bg-white/5 dark:bg-gray-800/50 backdrop-blur-sm border border-white/10 rounded-2xl p-8'>
+        <div className='bg-white/5 dark:bg-gray-800/50 backdrop-blur-sm border border-white/10 rounded-2xl p-6 md:p-8'>
           <div className='space-y-8'>
             <div className='space-y-4'>
               <h2 className='text-xl font-bold text-white'>Order Summary</h2>
@@ -111,7 +111,7 @@ const OrderConfirmationDisplay: React.FC<OrderConfirmationProps> = ({
 
         <div className='text-center mt-12'>
           <Link href='/products'>
-            <button className='bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 py-4 rounded-lg hover:opacity-90 transition-all'>
+            <button className='w-full md:w-auto bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 py-4 rounded-lg hover:opacity-90 transition-all'>
               Continue Shopping
             </button>
           </Link>

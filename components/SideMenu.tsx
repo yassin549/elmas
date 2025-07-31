@@ -52,11 +52,11 @@ const SideMenu: React.FC<SideMenuProps> = ({ isOpen, onClose }) => {
             animate='visible'
             exit='exit'
             onClick={e => e.stopPropagation()}
-            className='fixed left-0 top-0 w-full max-w-lg h-full bg-white shadow-2xl flex flex-col font-sans z-40'
+            className='fixed left-0 top-0 w-full max-w-sm md:max-w-lg h-full bg-white shadow-2xl flex flex-col font-sans z-40'
           >
-            <div className='px-12 pt-10 pb-4 flex justify-end'>
+            <div className='px-8 md:px-12 pt-10 pb-4 flex justify-end'>
               <Link href='/' onClick={onClose}>
-                <h1 className='font-lora text-8xl font-bold tracking-[-0.05em] text-black'>
+                <h1 className='font-lora text-6xl md:text-8xl font-bold tracking-[-0.05em] text-black'>
                   ELMAS
                 </h1>
               </Link>
@@ -65,7 +65,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ isOpen, onClose }) => {
               variants={listVariants}
               initial='hidden'
               animate='visible'
-              className='flex-grow px-12 pt-8 pb-8 flex flex-col'
+              className='flex-grow px-8 md:px-12 pt-8 pb-8 flex flex-col'
             >
               {/* Main Navigation */}
               <div className='flex-grow'>

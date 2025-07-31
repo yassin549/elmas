@@ -29,8 +29,8 @@ const OrderConfirmationPage = () => {
   }
 
   return (
-    <div className='container mx-auto p-8 bg-glass-light backdrop-blur-lg rounded-lg shadow-xl text-center'>
-      <h1 className='text-3xl font-bold mb-4 text-green-400 text-shadow-neon-green'>
+    <div className='container mx-auto p-4 md:p-8 bg-glass-light backdrop-blur-lg rounded-lg shadow-xl text-center'>
+      <h1 className='text-2xl md:text-3xl font-bold mb-4 text-green-400 text-shadow-neon-green'>
         Thank You For Your Order!
       </h1>
       <p className='text-lg mb-8'>Your order has been placed successfully.</p>
@@ -41,7 +41,7 @@ const OrderConfirmationPage = () => {
       <p className='mb-8'>A confirmation email will be sent to you shortly.</p>
       <button
         onClick={() => router.push('/products')}
-        className='bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors'
+        className='w-full md:w-auto bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors'
       >
         Continue Shopping
       </button>

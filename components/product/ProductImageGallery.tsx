@@ -109,7 +109,7 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
 
   return (
     <div className='w-full'>
-      <div className='relative w-full aspect-[0.82] overflow-hidden group'>
+      <div className='relative w-full aspect-square md:aspect-[0.82] overflow-hidden group'>
         {currentMedia.type === 'video' ? (
           <video
             key={currentMedia.url}
@@ -132,13 +132,13 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
 
         <button
           onClick={prevSlide}
-          className='absolute top-1/2 left-4 -translate-y-1/2 bg-white/50 rounded-full p-2 text-gray-800 hover:bg-white transition-opacity opacity-0 group-hover:opacity-100 z-10'
+          className='absolute top-1/2 left-2 md:left-4 -translate-y-1/2 bg-white/50 rounded-full p-1 md:p-2 text-gray-800 hover:bg-white transition-opacity opacity-70 md:opacity-0 md:group-hover:opacity-100 z-10'
         >
           <FiChevronLeft size={24} />
         </button>
         <button
           onClick={nextSlide}
-          className='absolute top-1/2 right-4 -translate-y-1/2 bg-white/50 rounded-full p-2 text-gray-800 hover:bg-white transition-opacity opacity-0 group-hover:opacity-100 z-10'
+          className='absolute top-1/2 right-2 md:right-4 -translate-y-1/2 bg-white/50 rounded-full p-1 md:p-2 text-gray-800 hover:bg-white transition-opacity opacity-70 md:opacity-0 md:group-hover:opacity-100 z-10'
         >
           <FiChevronRight size={24} />
         </button>
@@ -165,7 +165,7 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
         {currentMediaList.map((media, index) => (
           <div
             key={index}
-            className={`relative flex-shrink-0 w-1/4 aspect-[0.82] transition-opacity duration-300 ${currentMediaIndex === index ? 'opacity-100' : 'opacity-60'} hover:opacity-100`}
+            className={`relative flex-shrink-0 w-1/3 md:w-1/4 aspect-square md:aspect-[0.82] transition-opacity duration-300 ${currentMediaIndex === index ? 'opacity-100' : 'opacity-60'} hover:opacity-100`}
             onClick={() => {
               if (!isDragging.current) {
                 goToSlide(index)

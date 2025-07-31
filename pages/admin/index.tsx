@@ -129,20 +129,9 @@ const OrdersTable = ({
                 </td>
                 <td className='px-6 py-4'>
                   <span
-                    className={`px-2.5 py-1 text-xs font-semibold rounded-full ${
-                      {
-                        Pending:
-                          'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300',
-                        Processing:
-                          'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300',
-                        Shipped:
-                          'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-300',
-                        Delivered:
-                          'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300',
-                        Cancelled:
-                          'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300',
-                      }[order.status] || 'bg-gray-100 text-gray-800'
-                    }`}
+                    className={`px-2.5 py-1 text-xs font-semibold rounded-full ${getStatusClass(
+                      order.status
+                    )}`}
                   >
                     {order.status}
                   </span>

@@ -141,10 +141,10 @@ const CheckoutPage = () => {
 
   return (
     <div className='bg-gray-50 min-h-screen'>
-      <div className='container mx-auto px-4 py-12'>
-        <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
+      <div className='container mx-auto px-4 py-8 md:py-12'>
+        <div className='grid grid-cols-1 lg:grid-cols-3 gap-y-8 lg:gap-x-12'>
           {/* Checkout Form (2/3 width) */}
-          <div className='lg:col-span-2 bg-white rounded-xl shadow-md p-6 md:p-8'>
+          <div className='lg:col-span-2 bg-white rounded-xl shadow-md p-4 md:p-8'>
             <h2 className='text-2xl md:text-3xl font-bold mb-6 text-gray-800'>
               Shipping Information
             </h2>

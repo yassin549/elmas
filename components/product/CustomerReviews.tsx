@@ -48,7 +48,7 @@ const CustomerReviews: React.FC<CustomerReviewsProps> = ({ product }) => {
   return (
     <motion.div
       id='reviews'
-      className='w-full mt-20 py-16 font-sans bg-gray-50/50'
+      className='w-full mt-12 md:mt-20 py-12 md:py-16 font-sans bg-gray-50/50'
       initial='hidden'
       whileInView='visible'
       variants={containerVariants}
@@ -56,24 +56,24 @@ const CustomerReviews: React.FC<CustomerReviewsProps> = ({ product }) => {
     >
       <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8'>
         <motion.h2
-          className='text-center text-3xl font-lora tracking-wide mb-12 text-gray-800'
+          className='text-center text-2xl md:text-3xl font-lora tracking-wide mb-10 md:mb-12 text-gray-800'
           variants={itemVariants}
         >
           Customer Reviews
         </motion.h2>
 
         <motion.div
-          className='flex flex-col items-center text-center p-8 mb-12 bg-white rounded-xl shadow-sm border border-gray-100'
+          className='flex flex-col items-center text-center p-6 md:p-8 mb-12 bg-white rounded-xl shadow-sm border border-gray-100'
           variants={itemVariants}
         >
-          <span className='text-7xl font-lora text-gray-800'>
+          <span className='text-6xl md:text-7xl font-lora text-gray-800'>
             {rating_summary.average.toFixed(1)}
           </span>
           <div className='flex my-3 text-[#D8B28E]'>
             {[...Array(5)].map((_, i) => (
               <FiStar
                 key={i}
-                className={`w-7 h-7 ${i < Math.round(rating_summary.average) ? 'fill-current' : ''}`}
+                className={`w-6 h-6 md:w-7 md:h-7 ${i < Math.round(rating_summary.average) ? 'fill-current' : ''}`}
               />
             ))}
           </div>
@@ -93,11 +93,11 @@ const CustomerReviews: React.FC<CustomerReviewsProps> = ({ product }) => {
           </div>
         </motion.div>
 
-        <div className='flex space-x-8 pb-4 overflow-x-auto'>
+        <div className='flex space-x-4 md:space-x-8 pb-4 overflow-x-auto snap-x snap-mandatory scroll-pl-4 md:scroll-pl-0'>
           {reviews.map(review => (
             <motion.div
               key={review.id}
-              className='bg-white p-6 rounded-lg shadow-md border border-gray-100 flex-shrink-0 w-96'
+              className='bg-white p-6 rounded-lg shadow-md border border-gray-100 flex-shrink-0 w-80 md:w-96 snap-start'
               variants={itemVariants}
             >
               <div className='flex items-center mb-3'>

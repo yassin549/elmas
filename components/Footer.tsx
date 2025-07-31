@@ -33,7 +33,7 @@ const Footer = () => {
       <div className='max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8'>
         <div className='border-t border-gray-300 w-full absolute top-0 left-0'></div>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
-          <div className='space-y-4 pr-8'>
+          <div className='space-y-4 md:pr-8'>
             <p className='text-xs leading-relaxed'>
               At Billy J, We Believe In Celebrating Individuality And Making
               Fashion Fun. Our Mission Is To Empower Everyone To Look And Feel
@@ -86,7 +86,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className='border-t border-gray-300 mt-8 pt-4 text-xs text-gray-600 flex justify-between items-center'>
+        <div className='border-t border-gray-300 mt-8 pt-4 text-xs text-gray-600 flex flex-col md:flex-row justify-between items-center text-center md:text-left space-y-2 md:space-y-0'>
           <p>&copy; {new Date().getFullYear()} Elmas. All Rights Reserved.</p>
           <div>
             {/* Payment method icons can go here */}
@@ -97,7 +97,7 @@ const Footer = () => {
 
       <button
         onClick={scrollToTop}
-        className='absolute bottom-4 right-4 bg-black text-white w-10 h-10 flex items-center justify-center rounded-md hover:bg-gray-800 transition-colors'
+        className='absolute bottom-4 right-4 md:bottom-8 md:right-8 bg-black text-white w-10 h-10 flex items-center justify-center rounded-md hover:bg-gray-800 transition-colors'
         aria-label='Back to top'
       >
         <FiArrowUp className='w-5 h-5' />

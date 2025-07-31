@@ -11,12 +11,14 @@ interface UIContextType {
   cartItems: CartItem[]
   isCartOpen: boolean
   isWishlistOpen: boolean
+  isSideMenuOpen: boolean
   wishlistItems: CartItem[]
   addToCart: (item: CartItem) => void
   removeFromCart: (productId: string) => void
   updateQuantity: (productId: string, quantity: number) => void
   toggleCart: () => void
   toggleWishlist: () => void
+  toggleSideMenu: () => void
   addToWishlist: (item: CartItem) => void
   removeFromWishlist: (id: string) => void
   clearCart: () => void
@@ -42,6 +44,7 @@ export const UIProvider = ({ children }: UIProviderProps) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [isWishlistOpen, setIsWishlistOpen] = useState(false)
+  const [isSideMenuOpen, setIsSideMenuOpen] = useState(false)
   const [wishlistItems, setWishlistItems] = useState<CartItem[]>([])
 
   useEffect(() => {
@@ -96,6 +99,7 @@ export const UIProvider = ({ children }: UIProviderProps) => {
 
   const toggleCart = () => setIsCartOpen(prev => !prev)
   const toggleWishlist = () => setIsWishlistOpen(prev => !prev)
+  const toggleSideMenu = () => setIsSideMenuOpen(prev => !prev)
 
   const addToWishlist = (item: CartItem) => {
     setWishlistItems(prevItems => {
@@ -128,11 +132,13 @@ export const UIProvider = ({ children }: UIProviderProps) => {
     cartItems,
     isCartOpen,
     isWishlistOpen,
+    isSideMenuOpen,
     addToCart,
     removeFromCart,
     updateQuantity,
     toggleCart,
     toggleWishlist,
+    toggleSideMenu,
     clearCart,
     cartCount,
     cartTotal,

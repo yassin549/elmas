@@ -15,12 +15,12 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
   const [isOpen, setIsOpen] = useState(defaultOpen)
 
   return (
-    <div className='border-b border-gray-200 py-4'>
+    <div className='border-b border-gray-200 py-3 md:py-4'>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className='w-full flex justify-between items-center text-left'
       >
-        <span className='text-sm uppercase font-medium tracking-wider'>
+        <span className='text-xs md:text-sm uppercase font-medium tracking-wide md:tracking-wider'>
           {title}
         </span>
         {isOpen ? (
@@ -30,7 +30,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
         )}
       </button>
       {isOpen && (
-        <div className='pt-4 text-sm text-gray-700 font-light leading-relaxed'>
+        <div className='pt-3 md:pt-4 text-sm text-gray-700 font-light leading-relaxed'>
           {children}
         </div>
       )}
@@ -40,7 +40,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
 
 const ProductInfoAccordion: React.FC = () => {
   return (
-    <div className='w-full mt-10 font-light'>
+    <div className='w-full mt-6 md:mt-10 font-light'>
       <AccordionItem title='Details' isOpen={true}>
         <p>
           The Iveena Set is a must-have for your weekend wardrobe. Featuring a

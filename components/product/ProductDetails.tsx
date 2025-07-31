@@ -56,13 +56,13 @@ const ProductDetails: FC<ProductDetailsProps> = ({
     product.colors.find(c => c.name === selectedColorName) || product.colors[0]
 
   return (
-    <div className='flex flex-col space-y-4 font-sans'>
-      <div className='font-lora text-4xl text-black'>
+    <div className='flex flex-col space-y-2 md:space-y-4 font-sans'>
+      <div className='font-lora text-3xl md:text-4xl text-black flex flex-col md:flex-row md:space-x-2'>
         <h1>{product.name} -</h1>
         <h1>{selectedColor.name}</h1>
       </div>
       <div className='text-lg font-sans text-gray-900'>
-        <p className='text-2xl'>${product.price.toFixed(2)}</p>
+        <p className='text-xl md:text-2xl'>${product.price.toFixed(2)}</p>
       </div>
       <StarRating
         rating={product.rating_summary.average}
@@ -76,7 +76,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
             <button
               key={color.name}
               onClick={() => setSelectedColorName(color.name)}
-              className={`w-10 h-10 border ${selectedColor.name === color.name ? 'border-black' : 'border-gray-300'}`}
+              className={`w-8 h-8 md:w-10 md:h-10 border ${selectedColor.name === color.name ? 'border-black' : 'border-gray-300'}`}
               style={{ backgroundColor: color.hex }}
               title={color.name}
             />
@@ -92,7 +92,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
               key={size.name}
               onClick={() => setSelectedSize(size)}
               disabled={!size.in_stock}
-              className={`w-12 h-12 flex items-center justify-center text-sm font-medium transition-colors duration-200
+              className={`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-sm font-medium transition-colors duration-200
                 ${
                   selectedSize?.name === size.name
                     ? 'bg-[#D8B28E] text-white'
@@ -119,16 +119,16 @@ const ProductDetails: FC<ProductDetailsProps> = ({
         <div className='flex items-center border border-black w-fit divide-x divide-black'>
           <button
             onClick={() => handleQuantityChange(-1)}
-            className='w-12 h-10 flex items-center justify-center bg-gray-100 text-black text-xl font-medium hover:bg-gray-200 transition-colors'
+            className='w-10 h-8 md:w-12 md:h-10 flex items-center justify-center bg-gray-100 text-black text-xl font-medium hover:bg-gray-200 transition-colors'
           >
             -
           </button>
-          <span className='w-12 h-10 flex items-center justify-center bg-gray-100 text-sm select-none text-black'>
+          <span className='w-10 h-8 md:w-12 md:h-10 flex items-center justify-center bg-gray-100 text-sm select-none text-black'>
             {quantity}
           </span>
           <button
             onClick={() => handleQuantityChange(1)}
-            className='w-12 h-10 flex items-center justify-center bg-gray-100 text-black text-xl font-medium hover:bg-gray-200 transition-colors'
+            className='w-10 h-8 md:w-12 md:h-10 flex items-center justify-center bg-gray-100 text-black text-xl font-medium hover:bg-gray-200 transition-colors'
           >
             +
           </button>
