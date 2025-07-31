@@ -173,12 +173,14 @@ const OrderDetailPage = () => {
                   {new Date(order.createdAt).toLocaleString()}
                 </span>
               </div>
-              <div className='flex justify-between'>
-                <span className='text-gray-400'>Last Updated:</span>{' '}
-                <span className='text-gray-300'>
-                  {new Date(order.updatedAt).toLocaleString()}
-                </span>
-              </div>
+              {order.updatedAt && (
+                <div className='flex justify-between'>
+                  <span className='text-gray-400'>Last Updated:</span>{' '}
+                  <span className='text-gray-300'>
+                    {new Date(order.updatedAt).toLocaleString()}
+                  </span>
+                </div>
+              )}
               <div className='flex justify-between items-center'>
                 <span className='text-gray-400'>Payment:</span>{' '}
                 <span className='flex items-center text-gray-300'>
