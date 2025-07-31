@@ -1,10 +1,17 @@
 import React from 'react'
 import Link from 'next/link'
 import { FiSearch, FiShoppingBag, FiHeart } from 'react-icons/fi'
+import HamburgerIcon from './HamburgerIcon'
 import { useUI } from '@/context/UIContext'
 
 const Navbar: React.FC = () => {
-  const { cartCount, toggleCart, toggleWishlist, toggleSideMenu } = useUI()
+  const {
+    cartCount,
+    toggleCart,
+    toggleWishlist,
+    toggleSideMenu,
+    isSideMenuOpen,
+  } = useUI()
 
   return (
     <header className='relative top-0 left-0 w-full z-10 font-sans bg-white'>
@@ -15,25 +22,11 @@ const Navbar: React.FC = () => {
         <div className='flex items-center justify-between h-16 md:h-20'>
           {/* Left side: Hamburger */}
           <div className='flex-1 flex justify-start'>
-            <button
+            <HamburgerIcon
+              isOpen={isSideMenuOpen}
               onClick={toggleSideMenu}
-              className='text-gray-600 hover:text-gray-800'
-            >
-              <svg
-                className='w-6 h-6'
-                fill='none'
-                stroke='currentColor'
-                viewBox='0 0 24 24'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='1.5'
-                  d='M4 6h16M4 12h16M4 18h16'
-                ></path>
-              </svg>
-            </button>
+              className='w-9 h-9 transform scale-150'
+            />
           </div>
 
           {/* Center: Logo */}
