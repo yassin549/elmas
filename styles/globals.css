@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.force-visible {
+  display: flex !important;
+}
+
 @layer utilities {
   .scrollbar-hide::-webkit-scrollbar {
     display: none;

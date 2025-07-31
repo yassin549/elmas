@@ -1,5 +1,5 @@
-import React from 'react'
-import { motion, Variants, Transition } from 'framer-motion'
+import React, { useState, useEffect } from 'react'
+import { motion, Transition } from 'framer-motion'
 
 interface HamburgerIconProps {
   isOpen: boolean
@@ -12,58 +12,54 @@ const HamburgerIcon: React.FC<HamburgerIconProps> = ({
   onClick,
   className = '',
 }) => {
-  const topVariants: Variants = {
-    closed: { rotate: 0, y: 0 },
-    open: { rotate: 45, y: 5 }, // Adjusted for a 20px height container
-  }
+  const [isMobile, setIsMobile] = useState(false)
 
-  const middleVariants: Variants = {
-    closed: { opacity: 1 },
-    open: { opacity: 0 },
-  }
-
-  const bottomVariants: Variants = {
-    closed: { rotate: 0, y: 0 },
-    open: { rotate: -45, y: -5 }, // Adjusted for a 20px height container
-  }
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   const transition: Transition = {
-    type: 'spring',
-    stiffness: 260,
-    damping: 20,
+    duration: 0.3,
+    ease: 'easeInOut',
+  }
+
+  const lineProps = {
+    initial: false,
+    transition,
+    className:
+      'bg-[#111]/80 group-hover:bg-[#111]/100 absolute w-7 h-[0.5px] left-[2px] pointer-events-none md:w-14 md:h-[1px] md:left-[4px]',
   }
 
   return (
     <button
       onClick={onClick}
-      className={`relative w-8 h-8 ${className}`}
-      aria-label='Toggle menu'
+      className={`group relative w-8 h-8 md:w-16 md:h-16 ${className}`}
+      aria-label={isOpen ? 'Close menu' : 'Open menu'}
     >
       <motion.div
-        className='absolute w-full h-full flex flex-col justify-between items-center'
-        style={{ height: '20px', top: 'calc(50% - 10px)' }}
-        animate={isOpen ? 'open' : 'closed'}
-        initial={false}
-      >
-        <motion.div
-          className='bg-gray-800 dark:bg-white rounded-full'
-          style={{ width: '100%', height: '1.5px' }} // Thinner line
-          variants={topVariants}
-          transition={transition}
-        />
-        <motion.div
-          className='bg-gray-800 dark:bg-white rounded-full'
-          style={{ width: '100%', height: '1.5px' }} // Thinner line
-          variants={middleVariants}
-          transition={transition}
-        />
-        <motion.div
-          className='bg-gray-800 dark:bg-white rounded-full'
-          style={{ width: '100%', height: '1.5px' }} // Thinner line
-          variants={bottomVariants}
-          transition={transition}
-        />
-      </motion.div>
+        {...lineProps}
+        animate={{
+          y: isOpen ? (isMobile ? 10 : 20) : 0,
+          rotate: isOpen ? 45 : 0,
+        }}
+        className={`${lineProps.className} top-[6px] md:top-[12px]`}
+      />
+      <motion.div
+        {...lineProps}
+        animate={{ opacity: isOpen ? 0 : 1 }}
+        className={`${lineProps.className} top-[16px] md:top-[32px]`}
+      />
+      <motion.div
+        {...lineProps}
+        animate={{
+          y: isOpen ? (isMobile ? -10 : -20) : 0,
+          rotate: isOpen ? -45 : 0,
+        }}
+        className={`${lineProps.className} top-[26px] md:top-[52px]`}
+      />
     </button>
   )
 }

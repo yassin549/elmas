@@ -31,7 +31,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
     <div className='flex flex-col min-h-screen font-sans bg-white text-gray-800'>
       <SideMenu isOpen={isSideMenuOpen} onClose={toggleSideMenu} />
-      <header className='fixed top-0 left-0 w-full z-20 bg-white'>
+      <header className='fixed top-0 left-0 w-full z-50 bg-white'>
         <Navbar />
       </header>
       <CartPanel isOpen={isCartOpen} onClose={toggleCart} />

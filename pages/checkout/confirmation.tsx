@@ -103,7 +103,7 @@ const OrderConfirmationDisplay: React.FC<OrderConfirmationProps> = ({
 
             <div className='border-t border-white/10 pt-4 text-right'>
               <p className='text-xl font-bold text-white'>
-                Total: ${orderTotal.toFixed(2)}
+                Total: {orderTotal.toFixed(3)} TND
               </p>
             </div>
           </div>

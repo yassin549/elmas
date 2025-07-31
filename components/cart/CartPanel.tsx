@@ -80,7 +80,7 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
                     <div className='flex-grow flex flex-col'>
                       <p className='font-semibold text-gray-800'>{item.name}</p>
                       <p className='text-gray-600 mt-1'>
-                        ${item.price.toFixed(2)}
+                        {item.price.toFixed(3)} TND
                       </p>
                       <div className='flex items-center mt-4 text-sm'>
                         <button
@@ -121,7 +121,7 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
               <div className='p-6 border-t border-gray-200'>
                 <div className='flex justify-between items-center font-semibold text-lg mb-4'>
                   <p>Subtotal</p>
-                  <p>${cartTotal.toFixed(2)}</p>
+                  <p>{cartTotal.toFixed(3)} TND</p>
                 </div>
                 <p className='text-sm text-gray-500 mb-4'>
                   Shipping and taxes calculated at checkout.

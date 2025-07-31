@@ -21,16 +21,16 @@ const Navbar: React.FC = () => {
       <div className='max-w-full mx-auto px-4 sm:px-6 lg:px-8'>
         <div className='flex items-center justify-between h-16 md:h-20'>
           {/* Left side: Hamburger */}
-          <div className='flex-1 flex justify-start'>
+          <div className='flex items-center'>
             <HamburgerIcon
               isOpen={isSideMenuOpen}
               onClick={toggleSideMenu}
-              className='w-9 h-9 transform scale-150'
+              className='w-8 h-8'
             />
           </div>
 
           {/* Center: Logo */}
-          <div className='flex-1 flex justify-center'>
+          <div className='absolute left-1/2 transform -translate-x-1/2'>
             <Link
               href='/'
               className='text-2xl md:text-3xl font-sans tracking-[0.2em] md:tracking-[0.3em] uppercase'
@@ -39,33 +39,25 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
 
-          {/* Right side: Links */}
-          <div className='flex-1 flex justify-end items-center'>
-            <div className='flex items-center justify-end space-x-3 md:space-x-6 text-sm tracking-wider'>
-              <Link
-                href='/account'
-                className='hidden md:block hover:text-gray-700 font-semibold uppercase'
-              >
-                LOG IN
-              </Link>
-              <button className='hover:text-gray-700'>
-                <FiSearch className='h-6 w-6' strokeWidth={1.5} />
-              </button>
-              <button onClick={toggleWishlist} className='hover:text-gray-700'>
-                <FiHeart className='h-6 w-6' strokeWidth={1.5} />
-              </button>
-              <button
-                onClick={toggleCart}
-                className='relative hover:text-gray-700'
-              >
-                <FiShoppingBag className='h-6 w-6' strokeWidth={1.5} />
-                {cartCount > 0 && (
-                  <span className='absolute -top-1 -right-1.5 flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-black rounded-full'>
-                    {cartCount}
-                  </span>
-                )}
-              </button>
-            </div>
+          {/* Right side: Icons */}
+          <div className='flex items-center justify-end space-x-4'>
+            <button className='hover:text-gray-700'>
+              <FiSearch className='h-6 w-6' strokeWidth={1.5} />
+            </button>
+            <button onClick={toggleWishlist} className='hover:text-gray-700'>
+              <FiHeart className='h-6 w-6' strokeWidth={1.5} />
+            </button>
+            <button
+              onClick={toggleCart}
+              className='relative hover:text-gray-700'
+            >
+              <FiShoppingBag className='h-6 w-6' strokeWidth={1.5} />
+              {cartCount > 0 && (
+                <span className='absolute -top-1 -right-1.5 flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-black rounded-full'>
+                  {cartCount}
+                </span>
+              )}
+            </button>
           </div>
         </div>
       </div>

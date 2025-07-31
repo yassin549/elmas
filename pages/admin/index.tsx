@@ -81,7 +81,7 @@ const OrdersTable = ({
             </div>
             <div className='flex justify-between items-center text-sm'>
               <p className='font-medium text-gray-300'>
-                ${order.total.toFixed(2)}
+                {order.total.toFixed(3)} TND
               </p>
               <span
                 className={`px-2.5 py-1 text-xs font-semibold rounded-full ${getStatusClass(order.status)}`}
@@ -125,7 +125,7 @@ const OrdersTable = ({
                   {new Date(order.createdAt).toLocaleDateString()}
                 </td>
                 <td className='px-6 py-4 text-gray-600 dark:text-gray-300'>
-                  ${order.total.toFixed(2)}
+                  {order.total.toFixed(3)} TND
                 </td>
                 <td className='px-6 py-4'>
                   <span

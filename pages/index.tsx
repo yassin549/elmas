@@ -64,43 +64,6 @@ const product: Product = {
         { type: 'image', url: '/images/products/19.webp' },
       ],
     },
-
-    {
-      name: 'Lemon',
-      hex: '#F9E499',
-      media: [
-        {
-          type: 'video',
-          url: '/images/products/vid2.mp4',
-          thumbnailUrl: '/images/products/20.webp',
-        },
-        { type: 'image', url: '/images/products/20.webp' },
-        { type: 'image', url: '/images/products/21.webp' },
-        { type: 'image', url: '/images/products/22.webp' },
-        { type: 'image', url: '/images/products/23.webp' },
-        { type: 'image', url: '/images/products/24.webp' },
-        { type: 'image', url: '/images/products/25.webp' },
-        { type: 'image', url: '/images/products/26.webp' },
-        { type: 'image', url: '/images/products/27.webp' },
-      ],
-    },
-    {
-      name: 'Black',
-      hex: '#000000',
-      media: [
-        {
-          type: 'video',
-          url: '/images/products/vid3.mp4',
-          thumbnailUrl: '/images/products/28.webp',
-        },
-        { type: 'image', url: '/images/products/28.webp' },
-        { type: 'image', url: '/images/products/29.webp' },
-        { type: 'image', url: '/images/products/30.webp' },
-        { type: 'image', url: '/images/products/31.webp' },
-        { type: 'image', url: '/images/products/32.webp' },
-        { type: 'image', url: '/images/products/33.webp' },
-      ],
-    },
   ],
   sizes: [
     { name: 'XS', in_stock: true },

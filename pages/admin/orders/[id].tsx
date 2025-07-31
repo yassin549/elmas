@@ -120,14 +120,14 @@ const OrderDetailPage = () => {
                     </p>
                   </div>
                   <p className='font-medium text-gray-300'>
-                    ${(item.price * item.quantity).toFixed(2)}
+                    {(item.price * item.quantity).toFixed(3)} TND
                   </p>
                 </div>
               ))}
             </div>
             <div className='mt-4 pt-4 border-t border-gray-700 text-right'>
               <p className='text-lg font-bold text-white'>
-                Total: ${order.total.toFixed(2)}
+                Total: {order.total.toFixed(3)} TND
               </p>
             </div>
           </div>

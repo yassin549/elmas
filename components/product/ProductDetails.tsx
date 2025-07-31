@@ -62,7 +62,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
         <h1>{selectedColor.name}</h1>
       </div>
       <div className='text-lg font-sans text-gray-900'>
-        <p className='text-xl md:text-2xl'>${product.price.toFixed(2)}</p>
+        <p className='text-xl md:text-2xl'>{product.price.toFixed(3)} TND</p>
       </div>
       <StarRating
         rating={product.rating_summary.average}

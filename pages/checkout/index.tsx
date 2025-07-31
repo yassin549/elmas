@@ -317,7 +317,7 @@ const CheckoutPage = () => {
                     </p>
                   </div>
                   <p className='font-semibold text-gray-800'>
-                    ${(item.price * item.quantity).toFixed(2)}
+                    {(item.price * item.quantity).toFixed(3)} TND
                   </p>
                 </div>
               ))}
@@ -327,7 +327,7 @@ const CheckoutPage = () => {
               <div className='flex justify-between text-gray-600'>
                 <p>Subtotal</p>
                 <p className='font-medium text-gray-800'>
-                  ${cartTotal.toFixed(2)}
+                  {cartTotal.toFixed(3)} TND
                 </p>
               </div>
               <div className='flex justify-between text-gray-600'>
@@ -336,7 +336,7 @@ const CheckoutPage = () => {
               </div>
               <div className='flex justify-between font-bold text-xl text-gray-800 mt-2'>
                 <p>Total</p>
-                <p>${cartTotal.toFixed(2)}</p>
+                <p>{cartTotal.toFixed(3)} TND</p>
               </div>
             </div>
 
