@@ -65,9 +65,10 @@ const SalesOverTimeChart: React.FC<SalesOverTimeChartProps> = ({
         <YAxis
           stroke='#9ca3af'
           fontSize={12}
-          tickFormatter={value => `$${value}`}
+          tickFormatter={value => `${value} TND`}
         />
         <Tooltip
+          formatter={(value: number) => [`${value.toFixed(3)} TND`, 'Sales']}
           contentStyle={{
             backgroundColor: 'rgba(31, 41, 55, 0.8)',
             borderColor: 'rgba(255, 255, 255, 0.2)',
