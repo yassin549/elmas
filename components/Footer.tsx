@@ -35,7 +35,7 @@ const Footer = () => {
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
           <div className='space-y-4 md:pr-8'>
             <p className='text-xs leading-relaxed'>
-              At Billy J, We Believe In Celebrating Individuality And Making
+              At Elmas, We Believe In Celebrating Individuality And Making
               Fashion Fun. Our Mission Is To Empower Everyone To Look And Feel
               Their Best, No Matter The Occasion.
             </p>
