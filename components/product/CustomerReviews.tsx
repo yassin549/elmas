@@ -116,10 +116,6 @@ const CustomerReviews: React.FC<CustomerReviewsProps> = ({ product }) => {
               <p className='text-gray-700 text-sm leading-relaxed mb-4'>
                 {review.content}
               </p>
-              <p className='text-xs text-gray-500 text-right'>
-                {review.author.toUpperCase()} on{' '}
-                {new Date(review.date).toLocaleDateString()}
-              </p>
             </motion.div>
           ))}
         </div>

@@ -17,7 +17,7 @@ const Navbar: React.FC = () => {
           <div className='flex-1 flex justify-start'>
             <button
               onClick={toggleSideMenu}
-              className='text-gray-600 hover:text-gray-800 lg:hidden'
+              className='text-gray-600 hover:text-gray-800'
             >
               <svg
                 className='w-6 h-6'

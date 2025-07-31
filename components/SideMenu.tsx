@@ -54,12 +54,32 @@ const SideMenu: React.FC<SideMenuProps> = ({ isOpen, onClose }) => {
             onClick={e => e.stopPropagation()}
             className='fixed left-0 top-0 w-full max-w-sm md:max-w-lg h-full bg-white shadow-2xl flex flex-col font-sans z-40'
           >
-            <div className='px-8 md:px-12 pt-10 pb-4 flex justify-end'>
+            <div className='px-8 md:px-12 pt-10 pb-4 flex justify-between items-center'>
               <Link href='/' onClick={onClose}>
-                <h1 className='font-lora text-6xl md:text-8xl font-bold tracking-[-0.05em] text-black'>
+                <h1 className='font-lora text-4xl font-bold tracking-[-0.05em] text-black'>
                   ELMAS
                 </h1>
               </Link>
+              <button
+                onClick={onClose}
+                className='p-2 text-gray-500 hover:text-black transition-colors'
+                aria-label='Close menu'
+              >
+                <svg
+                  className='w-6 h-6'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'
+                  xmlns='http://www.w3.org/2000/svg'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='2'
+                    d='M6 18L18 6M6 6l12 12'
+                  ></path>
+                </svg>
+              </button>
             </div>
             <motion.nav
               variants={listVariants}
