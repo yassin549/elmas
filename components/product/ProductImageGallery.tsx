@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import Image from 'next/image'
 import { Color } from '@/types'
 import { FiChevronLeft, FiChevronRight, FiPlay } from 'react-icons/fi'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface ProductImageGalleryProps {
   colors: Color[]
@@ -12,7 +13,9 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
   colors,
   selectedColorName,
 }) => {
-  const [currentMediaIndex, setCurrentMediaIndex] = useState(0)
+  const [[currentMediaIndex, direction], setCurrentMediaState] = useState([
+    0, 0,
+  ])
   const thumbnailsContainerRef = useRef<HTMLDivElement>(null)
   const isDragging = useRef(false)
   const [isDown, setIsDown] = useState(false)
@@ -32,25 +35,26 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
   )
 
   useEffect(() => {
-    setCurrentMediaIndex(0)
+    setCurrentMediaState([0, 0])
   }, [currentMediaList])
 
   const goToSlide = (slideIndex: number) => {
-    setCurrentMediaIndex(slideIndex)
+    const newDirection = slideIndex > currentMediaIndex ? 1 : -1
+    setCurrentMediaState([slideIndex, newDirection])
   }
 
   const nextSlide = () => {
-    const isLastSlide = currentMediaIndex === currentMediaList.length - 1
-    const newIndex = isLastSlide ? 0 : currentMediaIndex + 1
-    goToSlide(newIndex)
+    setCurrentMediaState(prevState => [
+      prevState[0] === currentMediaList.length - 1 ? 0 : prevState[0] + 1,
+      1,
+    ])
   }
 
   const prevSlide = () => {
-    const isFirstSlide = currentMediaIndex === 0
-    const newIndex = isFirstSlide
-      ? currentMediaList.length - 1
-      : currentMediaIndex - 1
-    goToSlide(newIndex)
+    setCurrentMediaState(prevState => [
+      prevState[0] === 0 ? currentMediaList.length - 1 : prevState[0] - 1,
+      -1,
+    ])
   }
 
   if (currentMediaList.length === 0) {
@@ -58,6 +62,32 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
   }
 
   const currentMedia = currentMediaList[currentMediaIndex]
+
+  const swipeConfidenceThreshold = 10000
+  const variants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? '100%' : '-100%',
+      opacity: 0,
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1,
+    },
+    exit: (direction: number) => ({
+      zIndex: 0,
+      x: direction < 0 ? '100%' : '-100%',
+      opacity: 0,
+    }),
+  }
+
+  const paginate = (newDirection: number) => {
+    if (newDirection > 0) {
+      nextSlide()
+    } else {
+      prevSlide()
+    }
+  }
 
   const cancelMomentumTracking = () => {
     if (animationFrame.current) cancelAnimationFrame(animationFrame.current)
@@ -110,25 +140,53 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
   return (
     <div className='w-full'>
       <div className='relative w-full aspect-square md:aspect-[0.82] overflow-hidden group'>
-        {currentMedia.type === 'video' ? (
-          <video
-            key={currentMedia.url}
-            src={currentMedia.url}
-            autoPlay
-            muted
-            loop
-            playsInline
-            className='w-full h-full object-cover'
-          />
-        ) : (
-          <Image
-            src={currentMedia.url}
-            alt={`${selectedColor.name} product image ${currentMediaIndex + 1}`}
-            className='w-full h-full object-cover'
-            layout='fill'
-            priority={true}
-          />
-        )}
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.div
+            key={currentMediaIndex}
+            custom={direction}
+            variants={variants}
+            initial='enter'
+            animate='center'
+            exit='exit'
+            transition={{
+              x: { type: 'spring', stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 },
+            }}
+            drag='x'
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={1}
+            onDragEnd={(e, { offset, velocity }) => {
+              const swipe = Math.abs(offset.x) * velocity.x
+
+              if (swipe < -swipeConfidenceThreshold) {
+                paginate(1)
+              } else if (swipe > swipeConfidenceThreshold) {
+                paginate(-1)
+              }
+            }}
+            className='absolute w-full h-full'
+          >
+            {currentMedia.type === 'video' ? (
+              <video
+                key={currentMedia.url}
+                src={currentMedia.url}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className='w-full h-full object-cover'
+              />
+            ) : (
+              <Image
+                src={currentMedia.url}
+                alt={`${selectedColorName} product image ${currentMediaIndex + 1}`}
+                layout='fill'
+                className='object-cover'
+                priority={currentMediaIndex === 0}
+              />
+            )}
+          </motion.div>
+        </AnimatePresence>
 
         <button
           onClick={prevSlide}

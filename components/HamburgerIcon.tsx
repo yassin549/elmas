@@ -27,7 +27,11 @@ const HamburgerIcon: React.FC<HamburgerIconProps> = ({
     open: { rotate: -45, y: -5 }, // Adjusted for a 20px height container
   }
 
-  const transition: Transition = { duration: 0.3, ease: 'easeInOut' }
+  const transition: Transition = {
+    type: 'spring',
+    stiffness: 260,
+    damping: 20,
+  }
 
   return (
     <button
@@ -43,19 +47,19 @@ const HamburgerIcon: React.FC<HamburgerIconProps> = ({
       >
         <motion.div
           className='bg-gray-800 dark:bg-white rounded-full'
-          style={{ width: '100%', height: '2px' }} // Thinner line
+          style={{ width: '100%', height: '1.5px' }} // Thinner line
           variants={topVariants}
           transition={transition}
         />
         <motion.div
           className='bg-gray-800 dark:bg-white rounded-full'
-          style={{ width: '100%', height: '2px' }} // Thinner line
+          style={{ width: '100%', height: '1.5px' }} // Thinner line
           variants={middleVariants}
           transition={transition}
         />
         <motion.div
           className='bg-gray-800 dark:bg-white rounded-full'
-          style={{ width: '100%', height: '2px' }} // Thinner line
+          style={{ width: '100%', height: '1.5px' }} // Thinner line
           variants={bottomVariants}
           transition={transition}
         />
