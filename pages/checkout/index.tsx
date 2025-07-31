@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useCart } from '@/context/CartContext'
+import { useUI } from '@/context/UIContext'
 import { FiCreditCard, FiLock, FiLoader } from 'react-icons/fi'
 import { toast } from 'react-hot-toast'
 import { useRouter } from 'next/router'
@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 const CheckoutPage = () => {
   const router = useRouter()
-  const { cartItems, cartTotal, clearCart } = useCart()
+  const { cartItems, cartTotal, clearCart } = useUI()
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',

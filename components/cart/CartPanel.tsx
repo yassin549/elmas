@@ -1,5 +1,5 @@
 import React from 'react'
-import { useCart } from '@/context/CartContext'
+import { useUI } from '@/context/UIContext'
 import { FiX, FiPlus, FiMinus } from 'react-icons/fi'
 import Link from 'next/link'
 import { motion, AnimatePresence, Variants } from 'framer-motion'
@@ -11,7 +11,7 @@ interface CartPanelProps {
 }
 
 const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
-  const { cartItems, removeFromCart, updateQuantity, cartTotal } = useCart()
+  const { cartItems, removeFromCart, updateQuantity, cartTotal } = useUI()
 
   const panelVariants: Variants = {
     hidden: { x: '100%' },

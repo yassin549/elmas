@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router'
 
 import { useEffect } from 'react'
-import { useCart } from '@/context/CartContext'
+import { useUI } from '@/context/UIContext'
 
 const OrderConfirmationPage = () => {
   const router = useRouter()
   const { orderId } = router.query
-  const { clearCart } = useCart()
+  const { clearCart } = useUI()
 
   // This is a mock fetcher. In a real app, you'd fetch the specific order.
   // Since our POST endpoint doesn't let us retrieve a single order by ID,

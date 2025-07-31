@@ -64,7 +64,7 @@ export default async function handler(
             .json({ message: 'Missing required product fields.' })
         }
 
-        const newProduct: Omit<Product, 'size'> & { quantity: number } = {
+        const newProduct: Product = {
           id: `prod_${new Date().getTime()}`,
           name,
           description,
@@ -72,6 +72,17 @@ export default async function handler(
           images,
           category,
           quantity,
+          colors: [],
+          sizes: [],
+          details: [],
+          fit_details: [],
+          fabric_details: [],
+          reviews: [],
+          rating_summary: {
+            average: 0,
+            count: 0,
+            distribution: [],
+          },
         }
 
         const data = await db.read()

@@ -1,5 +1,5 @@
-const defaultTheme = require('tailwindcss/defaultTheme');
-const customTheme = require('./styles/theme');
+const defaultTheme = require('tailwindcss/defaultTheme')
+const customTheme = require('./styles/theme')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -11,9 +11,9 @@ module.exports = {
   ],
   theme: {
     extend: {
-            fontFamily: {
-        sans: ['Work Sans', ...defaultTheme.fontFamily.sans],
-        lora: ['Lora', 'serif'],
+      fontFamily: {
+        sans: ['Montserrat', ...defaultTheme.fontFamily.sans],
+        lora: ['Playfair Display', 'serif'],
       },
       colors: customTheme.colors,
       opacity: customTheme.opacity,
@@ -22,4 +22,4 @@ module.exports = {
     },
   },
   plugins: [],
-};
+}

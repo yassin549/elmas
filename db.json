@@ -5,10 +5,7 @@
       "id": "user-1",
       "email": "admin@elmas.com",
       "passwordHash": "$2b$10$hs19ekv0B/pP7uGHSiunPeYmXAtvrtc7.aGaOjcvIZ8aGFRv8dKyu",
-      "roles": [
-        "admin",
-        "user"
-      ]
+      "roles": ["admin", "user"]
     }
   ],
   "orders": []

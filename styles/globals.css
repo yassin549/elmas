@@ -1,17 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
 html {
   scroll-padding-top: 4rem; /* Match navbar height (h-16) */
 }
 
 @layer base {
   body {
-    @apply bg-white dark:bg-black;
-    @apply text-black dark:text-white;
+    background-color: theme('colors.brand-background');
+    color: theme('colors.brand-text');
+  }
+
+  .dark body {
+    background-color: theme('colors.black');
+    color: theme('colors.white');
     @apply transition-colors duration-500;
     @apply font-sans;
   }

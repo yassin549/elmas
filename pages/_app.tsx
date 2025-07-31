@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { useRouter } from 'next/router'
 import type { AppProps } from 'next/app'
 import { ThemeProvider } from '../context/ThemeContext'
-import { CartProvider } from '../context/CartContext'
+import { UIProvider } from '../context/UIContext'
 import { AuthProvider } from '../context/AuthContext'
 import { ParallaxProvider } from 'react-scroll-parallax'
 import MainLayout from '../components/layout/MainLayout'
@@ -41,14 +41,14 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <AuthProvider>
       <ThemeProvider>
-        <CartProvider>
+        <UIProvider>
           <ParallaxProvider>
             {loading && <CircleLoader visible={loading} />}
             <MainLayout>
               <Component {...pageProps} />
             </MainLayout>
           </ParallaxProvider>
-        </CartProvider>
+        </UIProvider>
       </ThemeProvider>
     </AuthProvider>
   )

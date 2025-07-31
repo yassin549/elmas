@@ -1,201 +1,239 @@
 import React, { useState } from 'react'
-import Image from 'next/image'
-import { useCart } from '@/context/CartContext'
-import AddToCartNotification from '@/components/AddToCartNotification'
-import { AnimatePresence } from 'framer-motion'
+import { motion, Variants } from 'framer-motion'
+import { Product } from '@/types'
+
+import ProductImageGallery from '@/components/product/ProductImageGallery'
+import ProductDetails from '@/components/product/ProductDetails'
+import ProductInfoAccordion from '@/components/product/ProductInfoAccordion'
+import CustomerReviews from '@/components/product/CustomerReviews'
+import Breadcrumbs from '@/components/layout/Breadcrumbs'
+
+const product: Product = {
+  id: '12345',
+  name: 'Iveena Top and Shorts Set',
+  price: 93.0,
+  category: 'Sets',
+  quantity: 10,
+  images: [
+    '/images/products/1.webp',
+    '/images/products/2.webp',
+    '/images/products/3.webp',
+    '/images/products/4.webp',
+    '/images/products/5.webp',
+    '/images/products/6.webp',
+  ],
+  colors: [
+    {
+      name: 'Grey',
+      hex: '#BDBAAE',
+      media: [
+        {
+          type: 'video',
+          url: '/images/products/vid4.mp4',
+          thumbnailUrl: '/images/products/1.webp',
+        },
+        { type: 'image', url: '/images/products/1.webp' },
+        { type: 'image', url: '/images/products/2.webp' },
+        { type: 'image', url: '/images/products/3.webp' },
+        { type: 'image', url: '/images/products/4.webp' },
+        { type: 'image', url: '/images/products/5.webp' },
+        { type: 'image', url: '/images/products/6.webp' },
+      ],
+    },
+    {
+      name: 'White',
+      hex: '#FFFFFF',
+      media: [
+        {
+          type: 'video',
+          url: '/images/products/vid1.mp4',
+          thumbnailUrl: '/images/products/7.webp',
+        },
+        { type: 'image', url: '/images/products/7.webp' },
+        { type: 'image', url: '/images/products/8.webp' },
+        { type: 'image', url: '/images/products/9.webp' },
+        { type: 'image', url: '/images/products/10.webp' },
+        { type: 'image', url: '/images/products/11.webp' },
+        { type: 'image', url: '/images/products/12.webp' },
+        { type: 'image', url: '/images/products/13.webp' },
+        { type: 'image', url: '/images/products/14.webp' },
+        { type: 'image', url: '/images/products/15.webp' },
+        { type: 'image', url: '/images/products/16.webp' },
+        { type: 'image', url: '/images/products/17.webp' },
+        { type: 'image', url: '/images/products/18.webp' },
+        { type: 'image', url: '/images/products/19.webp' },
+      ],
+    },
+
+    {
+      name: 'Lemon',
+      hex: '#F9E499',
+      media: [
+        {
+          type: 'video',
+          url: '/images/products/vid2.mp4',
+          thumbnailUrl: '/images/products/20.webp',
+        },
+        { type: 'image', url: '/images/products/20.webp' },
+        { type: 'image', url: '/images/products/21.webp' },
+        { type: 'image', url: '/images/products/22.webp' },
+        { type: 'image', url: '/images/products/23.webp' },
+        { type: 'image', url: '/images/products/24.webp' },
+        { type: 'image', url: '/images/products/25.webp' },
+        { type: 'image', url: '/images/products/26.webp' },
+        { type: 'image', url: '/images/products/27.webp' },
+      ],
+    },
+    {
+      name: 'Black',
+      hex: '#000000',
+      media: [
+        {
+          type: 'video',
+          url: '/images/products/vid3.mp4',
+          thumbnailUrl: '/images/products/28.webp',
+        },
+        { type: 'image', url: '/images/products/28.webp' },
+        { type: 'image', url: '/images/products/29.webp' },
+        { type: 'image', url: '/images/products/30.webp' },
+        { type: 'image', url: '/images/products/31.webp' },
+        { type: 'image', url: '/images/products/32.webp' },
+        { type: 'image', url: '/images/products/33.webp' },
+      ],
+    },
+  ],
+  sizes: [
+    { name: 'XS', in_stock: true },
+    { name: 'S', in_stock: true },
+    { name: 'M', in_stock: true },
+    { name: 'L', in_stock: false },
+    { name: 'XL', in_stock: true },
+    { name: 'XXL', in_stock: false },
+  ],
+  description:
+    'The Iveena Top and Shorts Set is the perfect combination of comfort and style. Made from a lightweight and breathable fabric, this set is perfect for warm days and nights.',
+  details: [
+    'Top and shorts set',
+    'Elasticated waistband',
+    'Functional pockets',
+    'Lined',
+  ],
+  fit_details: ['True to size', 'Model is wearing a size 8'],
+  fabric_details: ['100% Cotton', 'Cold hand wash'],
+  rating_summary: {
+    average: 4.9,
+    count: 62,
+    distribution: [
+      { stars: 5, count: 54 },
+      { stars: 4, count: 8 },
+      { stars: 3, count: 0 },
+      { stars: 2, count: 0 },
+      { stars: 1, count: 0 },
+    ],
+  },
+  reviews: [
+    {
+      id: 'rev1',
+      author: 'chaima ben amor',
+      verified_buyer: true,
+      rating: 4,
+      title: 'Great Styling!',
+      content:
+        'raw3a, tissu tayara, bsara7a 2a7sen meli kont netsawer. bch na3tiha 4 stars, sinon 10/10 styling 👗💖',
+      date: '07/30/25',
+      size: 'M',
+      usual_size: 'M',
+      fit: 'True to size',
+    },
+    {
+      id: 'rev2',
+      author: 'malek hasnaoui',
+      verified_buyer: true,
+      rating: 5,
+      title: 'Truly Luxurious',
+      content: '7aja barka n9oulha: vraiment luxe. Merci elmas 💕',
+      date: '07/28/25',
+      size: 'S',
+      usual_size: 'S',
+      fit: 'True to size',
+    },
+  ],
+}
 
 const ProductPage = () => {
-  const { addToCart } = useCart()
-  const [showNotification, setShowNotification] = useState(false)
+  const [selectedColorName, setSelectedColorName] = useState(
+    product.colors[0].name
+  )
 
-  const product = {
-    id: '2727019-119',
-    name: 'TOP EN POPELINE À FLEURS',
-    price: 139.0,
-    image: '/images/products/1.webp',
-    quantity: 1,
-    description:
-      'Top à manches longues larges. Coupe ample. Fermeture réglable sur le devant avec lien. Encolure en V. 100% coton. Jupe taille haute. Lien décoratif à la ceinture. Taille élastique. Doublée. 100% coton.',
-    images: [
-      '/images/products/1.webp',
-      '/images/products/3.webp',
-      '/images/products/2.webp',
-      '/images/products/5.webp',
-      '/images/products/6.webp',
-    ],
-  }
-
-  const handleAddToCart = () => {
-    addToCart(product)
-    setShowNotification(true)
-    setTimeout(() => {
-      setShowNotification(false)
-    }, 5000) // Auto-hide after 5 seconds
-  }
-
-  const infoLinks = [
-    'DIMENSIONS DU PRODUIT',
-    'COMPOSITION & ENTRETIEN',
-    'VOIR DISPONIBILITÉ EN MAGASIN',
-    'LIVRAISON, ÉCHANGE ET RETOURS',
+  const breadcrumbs = [
+    { name: 'Home', href: '#' },
+    { name: 'Iveena Top and Shorts Set', href: '#' },
+    { name: 'Sage', href: '#' },
   ]
 
+  const sectionVariants: Variants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: (i: number = 1) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: 'spring',
+        stiffness: 50,
+        damping: 20,
+        delay: i * 0.1,
+      },
+    }),
+  }
+
   return (
-    <div className='bg-white font-sans text-[#1C1C1C]'>
-      <div className='max-w-[1200px] mx-auto px-5'>
-        {/* 1. HERO SECTION */}
-        <section className='relative -top-[60px] flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-[50px] pt-8 pb-8'>
-          {/* Left Column: Main Image */}
-          <div className='w-full md:w-1/2'>
-            <Image
-              src={product.image}
-              alt={product.name}
-              width={600}
-              height={900}
-              className='w-full h-auto object-cover'
+    <div className='bg-white overflow-x-hidden'>
+      <div
+        className='max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12'
+        style={{ maxWidth: '80%' }}
+      >
+        <motion.div
+          className='mb-6'
+          initial='hidden'
+          whileInView='visible'
+          variants={sectionVariants}
+          viewport={{ once: true, amount: 0.5 }}
+        >
+          <Breadcrumbs crumbs={breadcrumbs} />
+        </motion.div>
+        <div className='grid grid-cols-1 lg:grid-cols-12 gap-x-8 lg:gap-x-12'>
+          <motion.div
+            className='lg:col-span-6'
+            initial='hidden'
+            whileInView='visible'
+            variants={sectionVariants}
+            custom={1}
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            <ProductImageGallery
+              colors={product.colors}
+              selectedColorName={selectedColorName}
             />
-          </div>
-
-          {/* Right Column: Product Details */}
-          <div className='w-full md:w-1/2 flex flex-col justify-center'>
-            <div className='flex justify-between items-baseline mb-[10px]'>
-              <h1 className='text-2xl font-bold uppercase'>{product.name}</h1>
-              <svg
-                className='w-5 h-5 text-black'
-                fill='none'
-                stroke='currentColor'
-                viewBox='0 0 24 24'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='1'
-                  d='M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z'
-                ></path>
-              </svg>
-            </div>
-            <p className='text-lg font-normal'>
-              {product.price.toFixed(2)} TND
-            </p>
-            <hr className='border-t border-black my-3' />
-            <p className='text-xs text-[#6E6E6E] mb-5'>JUNE | {product.id}</p>
-            <button
-              onClick={handleAddToCart}
-              className='h-[44px] w-full text-sm uppercase border border-black bg-white px-5 mb-[30px] hover:bg-black hover:text-white transition-colors duration-300'
-            >
-              AJOUTER
-            </button>
-            <div className='text-sm leading-relaxed font-normal mb-[25px]'>
-              <p>
-                Top à manches longues larges. Coupe ample. Fermeture réglable
-                sur le devant avec lien. Encolure en V. 100% coton.
-              </p>
-              <p>
-                Jupe taille haute. Lien décoratif à la ceinture. Taille
-                élastique. Doublée. 100% coton.
-              </p>
-            </div>
-            <div className='flex flex-col space-y-2'>
-              {infoLinks.map(link => (
-                <a
-                  href='#'
-                  key={link}
-                  className='text-xs uppercase text-[#6E6E6E] no-underline'
-                >
-                  {link}
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* 2. GALLERY SECTION */}
-        <section className='py-8'>
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-[30px]'>
-            {/* Row 1 */}
-            <div className='w-full flex items-center justify-center bg-white p-8 text-center'>
-              <div className='text-sm leading-relaxed'>
-                <p className='font-bold'>TOP</p>
-                <p>- Wide long sleeves</p>
-                <p>- Relaxed fit</p>
-                <p>- Adjustable tie up design on front</p>
-                <p>- V-neckline</p>
-                <p>- 100% Cotton</p>
-                <br />
-                <p className='font-bold'>SKIRT</p>
-                <p>- High waisted</p>
-                <p>- Decorative tie on waistband</p>
-                <p>- Elastic waistband</p>
-                <p>- Lined</p>
-                <p>- 100% Cotton</p>
-              </div>
-            </div>
-            <div className='w-full'>
-              <Image
-                src='/images/products/3.webp'
-                alt='Gallery image 2'
-                width={570}
-                height={855}
-                className='w-full h-auto object-cover bg-white'
-              />
-            </div>
-
-            {/* Row 2 */}
-            <div className='w-full'>
-              <Image
-                src='/images/products/2.webp'
-                alt='Gallery image 1'
-                width={570}
-                height={855}
-                className='w-full h-auto object-cover bg-white'
-              />
-            </div>
-            <div className='w-full'>
-              <Image
-                src='/images/products/5.webp'
-                alt='Gallery image 4'
-                width={570}
-                height={855}
-                className='w-full h-auto object-cover bg-white'
-              />
-            </div>
-
-            {/* Centered 5th Item */}
-            <div className='md:col-span-2 flex justify-center'>
-              <div className='w-full md:w-[calc(50%-15px)]'>
-                <Image
-                  src='/images/products/6.webp'
-                  alt='Gallery image 5'
-                  width={570}
-                  height={855}
-                  className='w-full h-auto object-cover bg-white'
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 3. NEWSLETTER FOOTER */}
-        <section className='text-center py-12'>
-          <h2 className='text-base font-bold text-[#1C1C1C] mb-[10px]'>
-            ABONNEZ-VOUS À NOTRE NEWSLETTER
-          </h2>
-          <div className='flex justify-center'>
-            <input
-              type='email'
-              placeholder='Entrez votre e-mail'
-              className='w-full max-w-sm h-[36px] border-b border-black text-center placeholder-[#6E6E6E] focus:outline-none'
+          </motion.div>
+          <motion.div
+            className='lg:col-span-6 mt-8 lg:mt-0'
+            initial='hidden'
+            whileInView='visible'
+            variants={sectionVariants}
+            custom={1.5}
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            <ProductDetails
+              product={product}
+              selectedColorName={selectedColorName}
+              setSelectedColorName={setSelectedColorName}
             />
-          </div>
-        </section>
+            <ProductInfoAccordion />
+          </motion.div>
+        </div>
+        <div className='mt-16'>
+          <CustomerReviews product={product} />
+        </div>
       </div>
-      {/* 4. GLOBAL FOOTER will be rendered by MainLayout */}
-      <AnimatePresence>
-        {showNotification && (
-          <AddToCartNotification onClose={() => setShowNotification(false)} />
-        )}
-      </AnimatePresence>
     </div>
   )
 }

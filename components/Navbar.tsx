@@ -1,44 +1,79 @@
 import React from 'react'
 import Link from 'next/link'
-import { useCart } from '@/context/CartContext'
+import { FiSearch, FiShoppingBag, FiHeart } from 'react-icons/fi'
+import { useUI } from '@/context/UIContext'
 
-interface NavbarProps {
-  onCartToggle: () => void
-}
-
-const Navbar: React.FC<NavbarProps> = ({ onCartToggle }) => {
-  const { cartCount } = useCart()
+const Navbar: React.FC = () => {
+  const { cartCount, toggleCart, toggleWishlist } = useUI()
 
   return (
-    <>
-      <header className='fixed top-0 left-0 w-full z-10 font-sans bg-transparent'>
-        <div className='max-w-full mx-auto px-4 sm:px-6 lg:px-8'>
-          <div className='flex items-center justify-between h-16 md:h-20'>
-            {/* Left side: Hamburger */}
-            <div className='flex-shrink-0'></div>
-
-            {/* Right side: Links */}
-            <nav className='flex items-center space-x-6 text-xs uppercase tracking-wider'>
-              <Link
-                href='/contact'
-                className='hover:text-gray-600 underline underline-offset-4'
+    <header className='relative top-0 left-0 w-full z-10 font-sans bg-white'>
+      <div className='bg-[#D8B28E] text-white text-center py-2 text-sm tracking-widest font-semibold uppercase hover:bg-[#C7A17A] transition-colors'>
+        SHOP WITH CONFIDENCE
+      </div>
+      <div className='max-w-full mx-auto px-4 sm:px-6 lg:px-8'>
+        <div className='flex items-center justify-between h-16 md:h-20'>
+          {/* Left side: Hamburger */}
+          <div className='flex-1 flex justify-start'>
+            <button className='text-gray-600 hover:text-gray-800 lg:hidden'>
+              <svg
+                className='w-6 h-6'
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
+                xmlns='http://www.w3.org/2000/svg'
               >
-                RECHERCHER
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth='1.5'
+                  d='M4 6h16M4 12h16M4 18h16'
+                ></path>
+              </svg>
+            </button>
+          </div>
+
+          {/* Center: Logo */}
+          <div className='flex-1 flex justify-center'>
+            <Link
+              href='/'
+              className='text-3xl font-sans tracking-[0.3em] uppercase'
+            >
+              Elmas
+            </Link>
+          </div>
+
+          {/* Right side: Links */}
+          <div className='flex-1 flex justify-end items-center'>
+            <div className='flex items-center justify-end space-x-4 md:space-x-6 text-sm tracking-wider'>
+              <Link
+                href='/account'
+                className='hover:text-gray-700 font-semibold uppercase'
+              >
+                LOG IN
               </Link>
-              <Link href='/login' className='hover:text-gray-600'>
-                SE CONNECTER
-              </Link>
-              <Link href='/contact' className='hover:text-gray-600'>
-                AIDE
-              </Link>
-              <button onClick={onCartToggle} className='hover:text-gray-600'>
-                PANIER ({cartCount})
+              <button className='hover:text-gray-700'>
+                <FiSearch className='h-6 w-6' strokeWidth={1.5} />
               </button>
-            </nav>
+              <button onClick={toggleWishlist} className='hover:text-gray-700'>
+                <FiHeart className='h-6 w-6' strokeWidth={1.5} />
+              </button>
+              <button
+                onClick={toggleCart}
+                className='relative hover:text-gray-700'
+              >
+                <FiShoppingBag className='h-6 w-6' strokeWidth={1.5} />
+                {cartCount > 0 && (
+                  <span className='absolute -top-1 -right-1.5 flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-black rounded-full'>
+                    {cartCount}
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
         </div>
-      </header>
-    </>
+      </div>
+    </header>
   )
 }
 
