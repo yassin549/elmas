@@ -1,5 +1,5 @@
 import React from 'react'
-import { motion, Variants } from 'framer-motion'
+import { motion, Variants, Transition } from 'framer-motion'
 
 interface HamburgerIconProps {
   isOpen: boolean
@@ -27,7 +27,7 @@ const HamburgerIcon: React.FC<HamburgerIconProps> = ({
     open: { rotate: -45, y: -5 }, // Adjusted for a 20px height container
   }
 
-  const transition = { duration: 0.3, ease: 'easeInOut' }
+  const transition: Transition = { duration: 0.3, ease: 'easeInOut' }
 
   return (
     <button
