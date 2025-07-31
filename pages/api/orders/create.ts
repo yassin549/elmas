@@ -18,6 +18,8 @@ interface CartItem {
   name: string
   price: number
   quantity: number
+  color: string
+  size: string
 }
 
 // Define the structure of an order

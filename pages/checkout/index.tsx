@@ -99,6 +99,8 @@ const CheckoutPage = () => {
             name: item.name,
             price: item.price,
             quantity: item.quantity,
+            color: item.selectedColor,
+            size: item.selectedSize,
           })),
           total: cartTotal,
         }),
@@ -312,6 +314,12 @@ const CheckoutPage = () => {
                 >
                   <div>
                     <p className='font-semibold text-gray-700'>{item.name}</p>
+                    <p className='text-sm text-gray-500'>
+                      Color: {item.selectedColor}
+                    </p>
+                    <p className='text-sm text-gray-500'>
+                      Size: {item.selectedSize}
+                    </p>
                     <p className='text-sm text-gray-500'>
                       Quantity: {item.quantity}
                     </p>

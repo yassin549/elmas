@@ -24,8 +24,8 @@ const product: Product = {
   ],
   colors: [
     {
-      name: 'Grey',
-      hex: '#BDBAAE',
+      name: 'Green',
+      hex: '#A3B899',
       media: [
         {
           type: 'video',

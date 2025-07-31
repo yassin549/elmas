@@ -28,13 +28,14 @@ const ProductDetails: FC<ProductDetailsProps> = ({
       alert('Please select a size.')
       return
     }
-    addToCart({
+    const cartItem = {
       ...product,
-      images: selectedColor.media.map(m => m.url),
       quantity,
       selectedSize: selectedSize.name,
       selectedColor: selectedColorName,
-    })
+      images: selectedColor.media.map(m => m.url),
+    }
+    addToCart(cartItem)
   }
 
   const handleAddToWishlist = () => {
