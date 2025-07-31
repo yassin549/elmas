@@ -29,10 +29,19 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
     [colors, selectedColorName]
   )
 
-  const currentMediaList = useMemo(
-    () => selectedColor?.media || [],
-    [selectedColor]
-  )
+  const currentMediaList = useMemo(() => {
+    const media = selectedColor?.media || []
+    // Create a shallow copy and sort it to prioritize images
+    return [...media].sort((a, b) => {
+      if (a.type === 'image' && b.type === 'video') {
+        return -1 // Images come first
+      }
+      if (a.type === 'video' && b.type === 'image') {
+        return 1 // Videos come after
+      }
+      return 0 // Keep original order for same types
+    })
+  }, [selectedColor])
 
   useEffect(() => {
     setCurrentMediaState([0, 0])
