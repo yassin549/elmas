@@ -170,7 +170,7 @@ const AdminDashboard = () => {
       <h1 className='text-2xl md:text-3xl font-bold mb-6'>Admin Dashboard</h1>
 
       {/* Sales Chart */}
-      <div className='grid grid-cols-1 gap-8'>
+      <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
         {/* Sales Chart */}
         <div className='bg-white/5 dark:bg-gray-800/50 p-4 md:p-6 rounded-lg shadow-lg backdrop-blur-sm border border-white/10'>
           <h2 className='text-xl font-semibold text-white mb-4'>

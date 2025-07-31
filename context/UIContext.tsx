@@ -71,8 +71,8 @@ export const UIProvider = ({ children }: UIProviderProps) => {
         const updatedItems = [...prevItems]
         const existingItem = updatedItems[existingItemIndex]
         updatedItems[existingItemIndex] = {
-          ...existingItem,
-          quantity: existingItem.quantity + newItem.quantity,
+          ...newItem, // Use the latest item data (including images)
+          quantity: existingItem.quantity + newItem.quantity, // But accumulate the quantity
         }
         return updatedItems
       } else {
