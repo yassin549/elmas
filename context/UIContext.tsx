@@ -4,24 +4,26 @@ import {
   useState,
   useEffect,
   ReactNode,
+  useCallback,
 } from 'react'
-import { CartItem } from '@/types'
+import { Cart, CartItem } from '@/types'
+import toast from 'react-hot-toast'
 
 interface UIContextType {
-  cartItems: CartItem[]
+  cart: Cart | null
   isCartOpen: boolean
   isWishlistOpen: boolean
   isSideMenuOpen: boolean
   wishlistItems: CartItem[]
-  addToCart: (item: CartItem) => void
-  removeFromCart: (productId: string) => void
-  updateQuantity: (productId: string, quantity: number) => void
+  addToCart: (item: Omit<CartItem, 'id'> & { id: string }) => Promise<void>
+  removeFromCart: (itemId: string) => Promise<void>
+  updateQuantity: (itemId: string, quantity: number) => Promise<void>
   toggleCart: () => void
   toggleWishlist: () => void
   toggleSideMenu: () => void
   addToWishlist: (item: CartItem) => void
   removeFromWishlist: (id: string) => void
-  clearCart: () => void
+  clearCart: () => Promise<void>
   cartCount: number
   cartTotal: number
 }
@@ -41,66 +43,114 @@ interface UIProviderProps {
 }
 
 export const UIProvider = ({ children }: UIProviderProps) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([])
+  const [cart, setCart] = useState<Cart | null>(null)
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [isWishlistOpen, setIsWishlistOpen] = useState(false)
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false)
   const [wishlistItems, setWishlistItems] = useState<CartItem[]>([])
 
-  useEffect(() => {
-    const storedCart = localStorage.getItem('liquid-glass-cart')
-    if (storedCart) {
-      setCartItems(JSON.parse(storedCart))
+  const fetchCart = useCallback(async () => {
+    try {
+      const response = await fetch('/api/cart')
+      if (response.ok) {
+        const data = await response.json()
+        setCart(data)
+      } else {
+        setCart({ items: [], total: 0 })
+      }
+    } catch (error) {
+      console.error('Failed to fetch cart:', error)
+      setCart({ items: [], total: 0 })
     }
   }, [])
 
   useEffect(() => {
-    localStorage.setItem('liquid-glass-cart', JSON.stringify(cartItems))
-  }, [cartItems])
+    fetchCart()
+  }, [fetchCart])
 
-  const addToCart = (newItem: CartItem) => {
-    setCartItems(prevItems => {
-      const existingItemIndex = prevItems.findIndex(
-        item =>
-          item.id === newItem.id &&
-          item.selectedColor === newItem.selectedColor &&
-          item.selectedSize === newItem.selectedSize
-      )
-
-      if (existingItemIndex > -1) {
-        const updatedItems = [...prevItems]
-        const existingItem = updatedItems[existingItemIndex]
-        updatedItems[existingItemIndex] = {
-          ...newItem, // Use the latest item data (including images)
-          quantity: existingItem.quantity + newItem.quantity, // But accumulate the quantity
-        }
-        return updatedItems
+  const addToCart = async (newItem: Omit<CartItem, 'id'> & { id: string }) => {
+    try {
+      const response = await fetch('/api/cart/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product: newItem, quantity: newItem.quantity }),
+      })
+      if (response.ok) {
+        const updatedCart = await response.json()
+        setCart(updatedCart)
+        toast.success(`${newItem.name} added to cart!`)
       } else {
-        return [...prevItems, newItem]
+        toast.error('Failed to add item to cart.')
       }
-    })
+    } catch (error) {
+      console.error('Failed to add to cart:', error)
+      toast.error('An error occurred.')
+    }
   }
 
-  const removeFromCart = (productId: string) => {
-    setCartItems(prevItems => prevItems.filter(item => item.id !== productId))
+  const removeFromCart = async (itemId: string) => {
+    try {
+      const response = await fetch('/api/cart/remove', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ itemId }),
+      })
+      if (response.ok) {
+        const updatedCart = await response.json()
+        setCart(updatedCart)
+        toast.success('Item removed from cart.')
+      } else {
+        toast.error('Failed to remove item.')
+      }
+    } catch (error) {
+      console.error('Failed to remove from cart:', error)
+      toast.error('An error occurred.')
+    }
   }
 
-  const updateQuantity = (productId: string, quantity: number) => {
-    setCartItems(prevItems =>
-      prevItems
-        .map(item =>
-          item.id === productId
-            ? { ...item, quantity: Math.max(0, quantity) }
-            : item
-        )
-        .filter(item => item.quantity > 0)
-    )
+  const updateQuantity = async (itemId: string, quantity: number) => {
+    if (quantity < 0) return
+
+    try {
+      const response = await fetch('/api/cart/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ itemId, quantity }),
+      })
+      if (response.ok) {
+        const updatedCart = await response.json()
+        setCart(updatedCart)
+      } else {
+        toast.error('Failed to update quantity.')
+      }
+    } catch (error) {
+      console.error('Failed to update quantity:', error)
+      toast.error('An error occurred.')
+    }
+  }
+
+  const clearCart = async () => {
+    try {
+      const response = await fetch('/api/cart/clear', {
+        method: 'POST',
+      })
+      if (response.ok) {
+        const updatedCart = await response.json()
+        setCart(updatedCart)
+      } else {
+        toast.error('Failed to clear cart.')
+      }
+    } catch (error) {
+      console.error('Failed to clear cart:', error)
+      toast.error('An error occurred.')
+    }
   }
 
   const toggleCart = () => setIsCartOpen(prev => !prev)
   const toggleWishlist = () => setIsWishlistOpen(prev => !prev)
   const toggleSideMenu = () => setIsSideMenuOpen(prev => !prev)
 
+  // Wishlist remains client-side for now
   const addToWishlist = (item: CartItem) => {
     setWishlistItems(prevItems => {
       const existingItem = prevItems.find(i => i.id === item.id)
@@ -118,18 +168,19 @@ export const UIProvider = ({ children }: UIProviderProps) => {
     setWishlistItems(prevItems => prevItems.filter(item => item.id !== id))
   }
 
-  const clearCart = () => {
-    setCartItems([])
-  }
-
-  const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0)
-  const cartTotal = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  )
+  const cartCount =
+    cart?.items.reduce(
+      (acc: number, item: CartItem) => acc + item.quantity,
+      0
+    ) ?? 0
+  const cartTotal =
+    cart?.items.reduce(
+      (acc: number, item: CartItem) => acc + item.price * item.quantity,
+      0
+    ) ?? 0
 
   const value = {
-    cartItems,
+    cart,
     isCartOpen,
     isWishlistOpen,
     isSideMenuOpen,

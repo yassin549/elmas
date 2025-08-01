@@ -52,10 +52,19 @@ export interface Product {
   }
 }
 
-export interface CartItem extends Product {
+export interface CartItem {
+  id: string
+  name: string
+  price: number
+  images: string[]
   quantity: number
-  selectedSize: string
-  selectedColor: string
+  selectedColor?: string
+  selectedSize?: string
+}
+
+export interface Cart {
+  items: CartItem[]
+  total: number
 }
 
 export interface Address {

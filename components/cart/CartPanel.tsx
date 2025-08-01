@@ -11,7 +11,8 @@ interface CartPanelProps {
 }
 
 const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
-  const { cartItems, removeFromCart, updateQuantity, cartTotal } = useUI()
+  const { cart, removeFromCart, updateQuantity, cartTotal } = useUI()
+  const cartItems = cart?.items || []
 
   const panelVariants: Variants = {
     hidden: { x: '100%' },

@@ -1,0 +1,13 @@
+import type { SessionOptions } from 'iron-session'
+
+if (!process.env.SESSION_PASSWORD) {
+  throw new Error('SESSION_PASSWORD environment variable not set')
+}
+
+export const sessionOptions: SessionOptions = {
+  password: process.env.SESSION_PASSWORD,
+  cookieName: 'elmas-app-session-cookie',
+  cookieOptions: {
+    secure: process.env.NODE_ENV === 'production',
+  },
+}

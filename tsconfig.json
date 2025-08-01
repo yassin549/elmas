@@ -20,6 +20,6 @@
     }
     // Cache-busting comment
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "iron-session.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }
