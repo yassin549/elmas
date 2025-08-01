@@ -2,6 +2,12 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { withSession, Session } from '@/lib/withSession'
 import { CartItem, Product } from '@/types'
 
+// Define a type for the product in the request body, which includes selected options
+interface RequestProduct extends Product {
+  selectedColor: string
+  selectedSize: string
+}
+
 async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -13,22 +19,20 @@ async function handler(
   }
 
   try {
-    const {
-      product,
-      quantity,
-      selectedColor,
-      selectedSize,
-    }: {
-      product: Product
-      quantity: number
-      selectedColor: string
-      selectedSize: string
-    } = req.body
+    const { product, quantity }: { product: RequestProduct; quantity: number } =
+      req.body
 
     // Basic validation
-    if (!product || !quantity || !selectedColor || !selectedSize) {
+    if (
+      !product ||
+      !quantity ||
+      !product.selectedColor ||
+      !product.selectedSize
+    ) {
       return res.status(400).json({ message: 'Missing required fields.' })
     }
+
+    const { selectedColor, selectedSize } = product
 
     if (typeof quantity !== 'number' || quantity <= 0) {
       return res.status(400).json({ message: 'Invalid quantity.' })
