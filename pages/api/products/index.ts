@@ -55,10 +55,17 @@ export default async function handler(
 
     case 'POST':
       try {
-        const { name, description, price, images, category, quantity } =
+        const { name, description, price, images, category, quantity, stock } =
           req.body
 
-        if (!name || !price || !images || !category || quantity === undefined) {
+        if (
+          !name ||
+          !price ||
+          !images ||
+          !category ||
+          quantity === undefined ||
+          stock === undefined
+        ) {
           return res
             .status(400)
             .json({ message: 'Missing required product fields.' })
@@ -72,6 +79,7 @@ export default async function handler(
           images,
           category,
           quantity,
+          stock,
           colors: [],
           sizes: [],
           details: [],

@@ -1,6 +1,7 @@
 import { createMocks } from 'node-mocks-http'
-import handler from '@/pages/api/auth/login'
+import handler from '../../../pages/api/auth/login'
 import bcrypt from 'bcryptjs'
+import { User, Product, Order } from '../../../types'
 
 // Mock the bcryptjs library
 jest.mock('bcryptjs', () => ({
@@ -14,14 +15,9 @@ jest.mock('cookie', () => ({
 
 interface MockDb {
   data: {
-    users: {
-      id: string
-      email: string
-      passwordHash: string
-      roles: string[]
-    }[]
-    products: unknown[]
-    orders: unknown[]
+    users: User[]
+    products: Product[]
+    orders: Order[]
   }
   write: jest.Mock
 }
@@ -42,6 +38,7 @@ describe('/api/auth/login', () => {
         users: [
           {
             id: 'user-1',
+            name: 'Admin User',
             email: 'admin@liquid-glass.com',
             passwordHash:
               '$2a$10$eACCc55nCenx2AxVP2g29uJc2x1tJgFbU3wzau7u2S.I4A7a4Ua6.', // Hash for 'adminpassword'
@@ -65,7 +62,7 @@ describe('/api/auth/login', () => {
       },
     })
 
-    await handler(req, res, mockDb)
+    await handler(req, res, mockDb.data)
 
     expect(res._getStatusCode()).toBe(200)
     expect(res._getJSONData()).toEqual({ message: 'Login successful!' })
@@ -87,7 +84,7 @@ describe('/api/auth/login', () => {
       },
     })
 
-    await handler(req, res, mockDb)
+    await handler(req, res, mockDb.data)
 
     expect(res._getStatusCode()).toBe(401)
     expect(res._getJSONData()).toEqual({ message: 'Invalid credentials.' })
@@ -102,7 +99,7 @@ describe('/api/auth/login', () => {
       },
     })
 
-    await handler(req, res, mockDb)
+    await handler(req, res, mockDb.data)
 
     expect(res._getStatusCode()).toBe(401)
     expect(res._getJSONData()).toEqual({ message: 'Invalid credentials.' })
@@ -110,7 +107,7 @@ describe('/api/auth/login', () => {
 
   it('should fail if method is not POST', async () => {
     const { req, res } = createMocks({ method: 'GET' })
-    await handler(req, res, mockDb)
+    await handler(req, res, mockDb.data)
     expect(res._getStatusCode()).toBe(405)
   })
 })

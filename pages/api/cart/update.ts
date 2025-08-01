@@ -1,22 +1,17 @@
-import { getIronSession } from 'iron-session'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { sessionOptions } from '@/lib/session'
-import { CartItem } from '@/types'
+import { withSession, Session } from '@/lib/withSession'
 
-export default async function updateCartRoute(
+async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
+  session: Session
 ) {
   if (req.method === 'POST') {
-    const session = await getIronSession(req, res, sessionOptions)
     const { itemId, quantity } = req.body
     const cart = session.cart
 
     if (cart) {
-      const itemIndex = cart.items.findIndex(
-        (item: CartItem) => item.id === itemId
-      )
-
+      const itemIndex = cart.items.findIndex(item => item.id === itemId)
       if (itemIndex > -1) {
         if (quantity > 0) {
           cart.items[itemIndex].quantity = quantity
@@ -25,7 +20,7 @@ export default async function updateCartRoute(
         }
 
         cart.total = cart.items.reduce(
-          (acc: number, item: CartItem) => acc + item.price * item.quantity,
+          (acc, item) => acc + item.price * item.quantity,
           0
         )
 
@@ -40,6 +35,8 @@ export default async function updateCartRoute(
     }
   } else {
     res.setHeader('Allow', ['POST'])
-    res.status(405).end(`Method ${req.method} Not Allowed`)
+    res.status(405).end('Method Not Allowed')
   }
 }
+
+export default withSession(handler)

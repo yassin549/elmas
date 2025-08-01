@@ -1,17 +1,18 @@
-import { getIronSession } from 'iron-session'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { sessionOptions } from '@/lib/session'
+import { withSession, Session } from '@/lib/withSession'
 
-export default async function cartRoute(
+async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
+  session: Session
 ) {
   if (req.method === 'GET') {
-    const session = await getIronSession(req, res, sessionOptions)
     const cart = session.cart || { items: [], total: 0 }
     res.status(200).json(cart)
   } else {
     res.setHeader('Allow', ['GET'])
-    res.status(405).end(`Method ${req.method} Not Allowed`)
+    res.status(405).end('Method Not Allowed')
   }
 }
+
+export default withSession(handler)

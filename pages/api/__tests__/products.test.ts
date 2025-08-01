@@ -53,8 +53,9 @@ describe('/api/products', () => {
     expect(res._getStatusCode()).toBe(201)
     const createdProduct = res._getJSONData()
     expect(createdProduct.name).toBe(newProductData.name)
-    expect(mockDb.data.products.length).toBe(2)
-    expect(mockDb.write).toHaveBeenCalledTimes(1)
+    expect(db.write).toHaveBeenCalledTimes(1)
+    const writtenData = (db.write as jest.Mock).mock.calls[0][0]
+    expect(writtenData.products.length).toBe(2)
   })
 
   it('should return 405 for unsupported methods', async () => {

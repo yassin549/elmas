@@ -1,10 +1,10 @@
 import { GetServerSidePropsContext } from 'next'
 import { createMocks } from 'node-mocks-http'
-import { withAdminAuth } from '@/lib/withAdminAuth'
+import { withAdminAuth } from '../../lib/withAdminAuth'
 import jwt from 'jsonwebtoken'
 
 // A mock GetServerSideProps function to pass to the HOF
-const mockGssp = jest.fn(async () => {
+const mockGssp: jest.Mock = jest.fn(async () => {
   return { props: { originalProp: 'hello' } }
 })
 

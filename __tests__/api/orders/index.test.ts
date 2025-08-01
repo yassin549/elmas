@@ -1,28 +1,29 @@
 import { createMocks } from 'node-mocks-http'
-import handler from '@/pages/api/orders'
-import { getDb } from '@/lib/db'
+import handler from '../../../pages/api/orders'
+import { db } from '../../../lib/db'
 
-// Mock the getDb function specifically
-jest.mock('@/lib/db', () => ({
-  getDb: jest.fn(),
+// Mock the db object
+jest.mock('../../../lib/db', () => ({
+  db: {
+    read: jest.fn(),
+    write: jest.fn(),
+  },
 }))
 
 describe('/api/orders', () => {
-  // Create mock db object for testing
-  const mockDb = {
-    data: {
+  let mockDbData
+
+  beforeEach(() => {
+    // Reset mocks and setup the mock db before each test
+    jest.clearAllMocks()
+    mockDbData = {
       orders: [],
       products: [],
       users: [],
-    },
-    write: jest.fn(),
-  }
-
-  beforeEach(() => {
-    // Reset mocks before each test
-    jest.clearAllMocks()
-    // Setup the mock implementation for getDb
-    ;(getDb as jest.Mock).mockResolvedValue(mockDb)
+    }
+    ;(db.read as jest.Mock).mockResolvedValue(mockDbData)
+    // Mock the write function to resolve without doing anything
+    ;(db.write as jest.Mock).mockResolvedValue(undefined)
   })
 
   it('should create an order successfully with valid data', async () => {
@@ -56,8 +57,9 @@ describe('/api/orders', () => {
     const responseData = res._getJSONData()
     expect(responseData.message).toBe('Order created successfully!')
     expect(responseData.order.total).toBe(100)
-    expect(mockDb.data.orders.length).toBe(1)
-    expect(mockDb.write).toHaveBeenCalledTimes(1)
+    expect(db.write).toHaveBeenCalledTimes(1)
+    const writtenData = (db.write as jest.Mock).mock.calls[0][0]
+    expect(writtenData.orders.length).toBe(1)
   })
 
   it('should return 400 if required fields are missing', async () => {
@@ -83,7 +85,7 @@ describe('/api/orders', () => {
     expect(res._getJSONData()).toEqual({
       message: 'Missing required order information.',
     })
-    expect(mockDb.write).not.toHaveBeenCalled()
+    expect(db.write).not.toHaveBeenCalled()
   })
 
   it('should return 405 for non-POST requests', async () => {

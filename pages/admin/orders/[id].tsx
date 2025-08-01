@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import useSWR, { useSWRConfig } from 'swr'
 import AdminLayout from '@/layouts/AdminLayout'
-import { Order, OrderStatus } from '@/types'
+import { Order, OrderStatus, CartItem } from '@/types'
 import {
   FiArrowLeft,
   FiBox,
@@ -108,7 +108,7 @@ const OrderDetailPage = () => {
               Order Items
             </h2>
             <div className='space-y-4'>
-              {order.items.map(item => (
+              {order.items.map((item: CartItem) => (
                 <div
                   key={item.id}
                   className='flex justify-between items-center border-b border-gray-700 pb-3 last:border-b-0 last:pb-0'

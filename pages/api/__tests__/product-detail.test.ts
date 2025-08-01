@@ -61,8 +61,9 @@ describe('/api/products/[productId]', () => {
     expect(res._getStatusCode()).toBe(200)
     const responseData = res._getJSONData()
     expect(responseData.name).toBe(updatedData.name)
-    expect(mockDb.data.products[1].name).toBe(updatedData.name)
-    expect(mockDb.write).toHaveBeenCalledTimes(1)
+    expect(db.write).toHaveBeenCalledTimes(1)
+    const writtenData = (db.write as jest.Mock).mock.calls[0][0]
+    expect(writtenData.products[1].name).toBe(updatedData.name)
   })
 
   it('DELETE should remove a product', async () => {
@@ -74,9 +75,10 @@ describe('/api/products/[productId]', () => {
     await handler(req, res)
 
     expect(res._getStatusCode()).toBe(204)
-    expect(mockDb.data.products.length).toBe(1)
-    expect(mockDb.data.products[0].id).toBe('2')
-    expect(mockDb.write).toHaveBeenCalledTimes(1)
+    expect(db.write).toHaveBeenCalledTimes(1)
+    const writtenData = (db.write as jest.Mock).mock.calls[0][0]
+    expect(writtenData.products.length).toBe(1)
+    expect(writtenData.products[0].id).toBe('2')
   })
 
   it('should return 405 for an unsupported method', async () => {

@@ -10,6 +10,10 @@ interface CustomerReviewsProps {
 const CustomerReviews: React.FC<CustomerReviewsProps> = ({ product }) => {
   const { rating_summary } = product
 
+  if (!rating_summary || rating_summary.count === 0) {
+    return null
+  }
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {

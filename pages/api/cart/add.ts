@@ -1,11 +1,11 @@
-import { getIronSession } from 'iron-session'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { sessionOptions } from '@/lib/session'
+import { withSession, Session } from '@/lib/withSession'
 import { CartItem, Product } from '@/types'
 
-export default async function addToCartRoute(
+async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
+  session: Session
 ) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST'])
@@ -34,8 +34,14 @@ export default async function addToCartRoute(
       return res.status(400).json({ message: 'Invalid quantity.' })
     }
 
-    const session = await getIronSession(req, res, sessionOptions)
-    const cart = session.cart || { items: [], total: 0 }
+    if (product.stock < quantity) {
+      return res.status(400).json({ message: 'Not enough stock available.' })
+    }
+
+    if (!session.cart) {
+      session.cart = { items: [], total: 0 }
+    }
+    const cart = session.cart
 
     const existingItemIndex = cart.items.findIndex(
       (item: CartItem) =>
@@ -67,7 +73,6 @@ export default async function addToCartRoute(
       0
     )
 
-    session.cart = cart
     await session.save()
 
     return res.status(200).json(cart)
@@ -78,3 +83,5 @@ export default async function addToCartRoute(
       .json({ message: 'An internal server error occurred.' })
   }
 }
+
+export default withSession(handler)

@@ -1,10 +1,11 @@
-import { User } from '@/types'
+import { User } from '../types'
 
 // NOTE: In a real application, this data would come from a database.
 // The password hash is for the password "adminpassword"
 export const users: User[] = [
   {
     id: 'user-1',
+    name: 'Admin User',
     email: 'admin@liquid-glass.com',
     // bcrypt hash for "adminpassword"
     passwordHash:

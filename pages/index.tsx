@@ -14,6 +14,7 @@ const product: Product = {
   price: 93.0,
   category: 'Sets',
   quantity: 10,
+  stock: 10,
   images: [
     '/images/products/1.webp',
     '/images/products/2.webp',

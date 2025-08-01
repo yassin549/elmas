@@ -1,18 +1,24 @@
-import { createMocks, MockRequest, MockResponse } from 'node-mocks-http'
+import { createMocks } from 'node-mocks-http'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { sessionOptions } from '@/lib/session'
-import { getIronSession } from 'iron-session'
+import { IronSession } from 'iron-session'
 
-import addHandler from '@/pages/api/cart/add'
-import getHandler from '@/pages/api/cart/index'
-import { Product } from '@/types'
+import addHandler from '../../pages/api/cart/add'
+import getHandler from '../../pages/api/cart/index'
+import { Product, Cart } from '../../types'
+
+interface TestSessionData {
+  cart?: Cart
+}
 
 // Helper to create a session for a mock request
-async function createSession(
-  req: MockRequest<NextApiRequest>,
-  res: MockResponse<NextApiResponse>
-) {
-  return getIronSession(req, res, sessionOptions)
+async function createSession(): Promise<IronSession<TestSessionData>> {
+  // This is a simplified mock of getIronSession for testing purposes
+  const session = {
+    cart: { items: [], total: 0 },
+    save: jest.fn(),
+    destroy: jest.fn(),
+  } as unknown as IronSession<TestSessionData>
+  return session
 }
 
 const mockProduct: Product = {
@@ -24,12 +30,17 @@ const mockProduct: Product = {
   colors: [],
   sizes: [],
   description: '',
+  quantity: 1,
+  stock: 10,
   details: [],
   fit_details: [],
   fabric_details: [],
-  rating_summary: { average: 0, count: 0, distribution: [] },
   reviews: [],
-  quantity: 1,
+  rating_summary: {
+    average: 0,
+    count: 0,
+    distribution: [],
+  },
 }
 
 describe('Cart API', () => {
@@ -39,7 +50,7 @@ describe('Cart API', () => {
       NextApiRequest,
       NextApiResponse
     >()
-    const session1 = await createSession(req1, res1)
+    const session1 = await createSession()
 
     // Add item to User 1's cart
     req1.method = 'POST'
@@ -58,7 +69,7 @@ describe('Cart API', () => {
       NextApiRequest,
       NextApiResponse
     >()
-    const session2 = await createSession(req2, res2)
+    const session2 = await createSession()
 
     // User 2's cart should be empty initially
     req2.method = 'GET'
@@ -76,7 +87,7 @@ describe('Cart API', () => {
     >()
     // We need to re-apply the cookies from the first response to simulate the same user
     req1Get.headers.cookie = res1.getHeaders()['set-cookie'] as string
-    const session1Again = await createSession(req1Get, res1Get)
+    const session1Again = await createSession()
     Object.assign(req1Get, { session: session1Again })
 
     await getHandler(req1Get, res1Get)
