@@ -8,7 +8,7 @@ interface CustomerReviewsProps {
 }
 
 const CustomerReviews: React.FC<CustomerReviewsProps> = ({ product }) => {
-  const { rating_summary, reviews } = product
+  const { rating_summary } = product
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -92,33 +92,6 @@ const CustomerReviews: React.FC<CustomerReviewsProps> = ({ product }) => {
             ))}
           </div>
         </motion.div>
-
-        <div className='flex space-x-4 md:space-x-8 pb-4 overflow-x-auto snap-x snap-mandatory scroll-pl-4 md:scroll-pl-0'>
-          {reviews.map(review => (
-            <motion.div
-              key={review.id}
-              className='bg-white p-6 rounded-lg shadow-md border border-gray-100 flex-shrink-0 w-80 md:w-96 snap-start'
-              variants={itemVariants}
-            >
-              <div className='flex items-center mb-3'>
-                <div className='flex text-[#D8B28E]'>
-                  {[...Array(5)].map((_, i) => (
-                    <FiStar
-                      key={i}
-                      className={`w-5 h-5 ${i < review.rating ? 'fill-current' : ''}`}
-                    />
-                  ))}
-                </div>
-                <h3 className='font-semibold text-lg font-lora tracking-wide ml-4'>
-                  {review.title}
-                </h3>
-              </div>
-              <p className='text-gray-700 text-sm leading-relaxed mb-4'>
-                {review.content}
-              </p>
-            </motion.div>
-          ))}
-        </div>
       </div>
     </motion.div>
   )

@@ -66,12 +66,10 @@ const product: Product = {
     },
   ],
   sizes: [
-    { name: 'XS', in_stock: true },
     { name: 'S', in_stock: true },
     { name: 'M', in_stock: true },
-    { name: 'L', in_stock: false },
+    { name: 'L', in_stock: true },
     { name: 'XL', in_stock: true },
-    { name: 'XXL', in_stock: false },
   ],
   description:
     'The Iveena Top and Shorts Set is the perfect combination of comfort and style. Made from a lightweight and breathable fabric, this set is perfect for warm days and nights.',
