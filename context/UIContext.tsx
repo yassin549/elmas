@@ -11,14 +11,14 @@ import toast from 'react-hot-toast'
 
 interface UIContextType {
   cart: Cart | null
-  isCartOpen: boolean
+
   isWishlistOpen: boolean
   isSideMenuOpen: boolean
   wishlistItems: CartItem[]
   addToCart: (item: Omit<CartItem, 'id'> & { id: string }) => Promise<void>
   removeFromCart: (itemId: string) => Promise<void>
   updateQuantity: (itemId: string, quantity: number) => Promise<void>
-  toggleCart: () => void
+
   toggleWishlist: () => void
   toggleSideMenu: () => void
   addToWishlist: (item: CartItem) => void
@@ -44,7 +44,7 @@ interface UIProviderProps {
 
 export const UIProvider = ({ children }: UIProviderProps) => {
   const [cart, setCart] = useState<Cart | null>(null)
-  const [isCartOpen, setIsCartOpen] = useState(false)
+
   const [isWishlistOpen, setIsWishlistOpen] = useState(false)
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false)
   const [wishlistItems, setWishlistItems] = useState<CartItem[]>([])
@@ -146,7 +146,6 @@ export const UIProvider = ({ children }: UIProviderProps) => {
     }
   }
 
-  const toggleCart = () => setIsCartOpen(prev => !prev)
   const toggleWishlist = () => setIsWishlistOpen(prev => !prev)
   const toggleSideMenu = () => setIsSideMenuOpen(prev => !prev)
 
@@ -181,13 +180,13 @@ export const UIProvider = ({ children }: UIProviderProps) => {
 
   const value = {
     cart,
-    isCartOpen,
+
     isWishlistOpen,
     isSideMenuOpen,
     addToCart,
     removeFromCart,
     updateQuantity,
-    toggleCart,
+
     toggleWishlist,
     toggleSideMenu,
     clearCart,

@@ -61,8 +61,9 @@ const WishlistPanel: React.FC<WishlistPanelProps> = ({ isOpen, onClose }) => {
                       <Image
                         src={item.images?.[0] || '/placeholder.png'}
                         alt={item.name}
-                        layout='fill'
-                        objectFit='cover'
+                        fill
+                        sizes='100px'
+                        className='object-cover'
                       />
                     </div>
                     <div className='flex-grow'>

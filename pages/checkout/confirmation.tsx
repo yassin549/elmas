@@ -3,24 +3,17 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { FiCheckCircle, FiTruck, FiClock, FiMapPin } from 'react-icons/fi'
 import CircleLoader from '@/components/CircleLoader'
+import { Order } from '@/types'
 
 interface OrderConfirmationProps {
-  orderId: string
-  orderTotal: number
-  shippingAddress: {
-    fullName: string
-    addressLine1: string
-    city: string
-    postalCode: string
-    country: string
-  }
+  order: Order
 }
 
 const OrderConfirmationDisplay: React.FC<OrderConfirmationProps> = ({
-  orderId,
-  orderTotal,
-  shippingAddress,
+  order,
 }) => {
+  const { id, total, shipping, createdAt } = order
+
   return (
     <div className='container mx-auto px-4 py-8 md:py-16'>
       <div className='max-w-4xl mx-auto'>
@@ -41,12 +34,12 @@ const OrderConfirmationDisplay: React.FC<OrderConfirmationProps> = ({
               <div className='grid grid-cols-2 gap-4'>
                 <div>
                   <p className='text-gray-400'>Order Number</p>
-                  <p className='font-medium text-white'>#{orderId}</p>
+                  <p className='font-medium text-white'>#{id}</p>
                 </div>
                 <div>
                   <p className='text-gray-400'>Order Date</p>
                   <p className='font-medium text-white'>
-                    {new Date().toLocaleDateString()}
+                    {new Date(createdAt).toLocaleDateString()}
                   </p>
                 </div>
               </div>
@@ -60,15 +53,13 @@ const OrderConfirmationDisplay: React.FC<OrderConfirmationProps> = ({
                 <FiMapPin className='w-5 h-5 text-blue-400' />
                 <div>
                   <p className='font-medium text-white'>
-                    {shippingAddress.fullName}
+                    {shipping.firstName} {shipping.lastName}
                   </p>
+                  <p className='text-gray-400'>{shipping.address}</p>
                   <p className='text-gray-400'>
-                    {shippingAddress.addressLine1}
+                    {shipping.city}, {shipping.postalCode}
                   </p>
-                  <p className='text-gray-400'>
-                    {shippingAddress.city}, {shippingAddress.postalCode}
-                  </p>
-                  <p className='text-gray-400'>{shippingAddress.country}</p>
+                  <p className='text-gray-400'>{shipping.country}</p>
                 </div>
               </div>
             </div>
@@ -103,14 +94,14 @@ const OrderConfirmationDisplay: React.FC<OrderConfirmationProps> = ({
 
             <div className='border-t border-white/10 pt-4 text-right'>
               <p className='text-xl font-bold text-white'>
-                Total: {orderTotal.toFixed(3)} TND
+                Total: {total.toFixed(3)} TND
               </p>
             </div>
           </div>
         </div>
 
         <div className='text-center mt-12'>
-          <Link href='/products'>
+          <Link href='/'>
             <button className='w-full md:w-auto bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 py-4 rounded-lg hover:opacity-90 transition-all'>
               Continue Shopping
             </button>
@@ -123,40 +114,35 @@ const OrderConfirmationDisplay: React.FC<OrderConfirmationProps> = ({
 
 const ConfirmationPage = () => {
   const router = useRouter()
-  const [orderData, setOrderData] = useState<OrderConfirmationProps | null>(
-    null
-  )
+  const [order, setOrder] = useState<Order | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (router.isReady) {
-      const {
-        orderId,
-        total,
-        fullName,
-        addressLine1,
-        city,
-        postalCode,
-        country,
-      } = router.query
+      const { orderId } = router.query
 
-      if (orderId && total && fullName && addressLine1) {
-        setOrderData({
-          orderId: orderId as string,
-          orderTotal: parseFloat(total as string),
-          shippingAddress: {
-            fullName: fullName as string,
-            addressLine1: addressLine1 as string,
-            city: city as string,
-            postalCode: postalCode as string,
-            country: country as string,
-          },
-        })
+      if (typeof orderId === 'string') {
+        const fetchOrder = async () => {
+          try {
+            const response = await fetch(`/api/orders/${orderId}`)
+            if (!response.ok) {
+              const errorData = await response.json()
+              throw new Error(errorData.message || 'Order not found.')
+            }
+            const data: Order = await response.json()
+            setOrder(data)
+          } catch (err) {
+            setError((err as Error).message)
+          } finally {
+            setIsLoading(false)
+          }
+        }
+        fetchOrder()
       } else {
-        setError('Order details are missing. Please contact support.')
+        setError('Order ID is missing or invalid.')
+        setIsLoading(false)
       }
-      setIsLoading(false)
     }
   }, [router.isReady, router.query])
 
@@ -181,11 +167,11 @@ const ConfirmationPage = () => {
     )
   }
 
-  if (!orderData) {
+  if (!order) {
     return null // Or a fallback UI
   }
 
-  return <OrderConfirmationDisplay {...orderData} />
+  return <OrderConfirmationDisplay order={order} />
 }
 
 export default ConfirmationPage

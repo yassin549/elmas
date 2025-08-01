@@ -153,7 +153,8 @@ const ProductForm: React.FC<ProductFormProps> = ({
                 <Image
                   src={image}
                   alt={`Product image ${index + 1}`}
-                  layout='fill'
+                  fill
+                  sizes='(max-width: 768px) 25vw, 16vw'
                   className='object-cover rounded-lg shadow-md'
                 />
                 <button

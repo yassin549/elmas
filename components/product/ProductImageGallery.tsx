@@ -189,7 +189,8 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
               <Image
                 src={currentMedia.url}
                 alt={`${selectedColorName} product image ${currentMediaIndex + 1}`}
-                layout='fill'
+                fill
+                sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
                 className='object-cover'
                 priority={currentMediaIndex === 0}
               />
@@ -243,7 +244,8 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
               src={media.type === 'image' ? media.url : media.thumbnailUrl!}
               alt={`Thumbnail ${index + 1}`}
               className='w-full h-full object-cover pointer-events-none'
-              layout='fill'
+              fill
+              sizes='(max-width: 768px) 33vw, 25vw'
             />
             {media.type === 'video' && (
               <div className='absolute bottom-1 right-1 bg-white/80 rounded-full p-0.5'>

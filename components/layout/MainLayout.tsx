@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { useUI } from '@/context/UIContext'
 import Navbar from '../Navbar'
 import Footer from '../Footer'
-import CartPanel from '../cart/CartPanel'
 import WishlistPanel from './WishlistPanel'
 import SideMenu from '../SideMenu'
 
@@ -11,22 +10,16 @@ interface MainLayoutProps {
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-  const {
-    isCartOpen,
-    toggleCart,
-    isWishlistOpen,
-    toggleWishlist,
-    isSideMenuOpen,
-    toggleSideMenu,
-  } = useUI()
+  const { isSideMenuOpen, isWishlistOpen, toggleWishlist, toggleSideMenu } =
+    useUI()
 
   useEffect(() => {
     document.body.style.overflow =
-      isSideMenuOpen || isCartOpen || isWishlistOpen ? 'hidden' : 'auto'
+      isSideMenuOpen || isWishlistOpen ? 'hidden' : 'auto'
     return () => {
       document.body.style.overflow = 'auto'
     }
-  }, [isSideMenuOpen, isCartOpen, isWishlistOpen])
+  }, [isSideMenuOpen, isWishlistOpen])
 
   return (
     <div className='flex flex-col min-h-screen font-sans bg-white text-gray-800'>
@@ -34,7 +27,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       <header className='fixed top-0 left-0 w-full z-50 bg-white'>
         <Navbar />
       </header>
-      <CartPanel isOpen={isCartOpen} onClose={toggleCart} />
+
       <WishlistPanel isOpen={isWishlistOpen} onClose={toggleWishlist} />
       <main className='flex-grow pt-[88px]'>{children}</main>
       <Footer />

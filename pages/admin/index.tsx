@@ -163,7 +163,7 @@ const AdminDashboard = () => {
     data: ordersData,
     error: ordersError,
     isLoading: ordersLoading,
-  } = useSWR<Order[]>('/api/orders', fetcher)
+  } = useSWR<Order[]>('/api/orders', fetcher, { refreshInterval: 5000 })
 
   return (
     <AdminLayout>

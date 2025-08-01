@@ -118,6 +118,16 @@ const OrderDetailPage = () => {
                     <p className='text-sm text-gray-400'>
                       Quantity: {item.quantity}
                     </p>
+                    {item.selectedSize && (
+                      <p className='text-sm text-gray-400'>
+                        Size: {item.selectedSize}
+                      </p>
+                    )}
+                    {item.selectedColor && (
+                      <p className='text-sm text-gray-400'>
+                        Color: {item.selectedColor}
+                      </p>
+                    )}
                   </div>
                   <p className='font-medium text-gray-300'>
                     {(item.price * item.quantity).toFixed(3)} TND

@@ -1,4 +1,5 @@
 import { useState, FC } from 'react'
+import { useRouter } from 'next/router'
 import { useUI } from '@/context/UIContext'
 import { Product, Size } from '@/types'
 import StarRating from '@/components/product/StarRating'
@@ -15,7 +16,8 @@ const ProductDetails: FC<ProductDetailsProps> = ({
   selectedColorName,
   setSelectedColorName,
 }) => {
-  const { addToCart, addToWishlist } = useUI()
+  const router = useRouter()
+  const { addToWishlist } = useUI()
   const [selectedSize, setSelectedSize] = useState<Size | null>(null)
   const [quantity, setQuantity] = useState(1)
 
@@ -23,19 +25,21 @@ const ProductDetails: FC<ProductDetailsProps> = ({
     setQuantity(prev => Math.max(1, prev + amount))
   }
 
-  const handleAddToCart = () => {
+  const handleBuyNow = () => {
     if (!selectedSize) {
       alert('Please select a size.')
       return
     }
-    const cartItem = {
-      ...product,
-      quantity,
-      selectedSize: selectedSize.name,
-      selectedColor: selectedColorName,
-      images: selectedColor.media.map(m => m.url),
-    }
-    addToCart(cartItem)
+
+    router.push({
+      pathname: '/checkout',
+      query: {
+        productId: product.id,
+        quantity,
+        size: selectedSize.name,
+        color: selectedColorName,
+      },
+    })
   }
 
   const handleAddToWishlist = () => {
@@ -143,11 +147,11 @@ const ProductDetails: FC<ProductDetailsProps> = ({
           <p className='text-sm text-gray-600'>Please select a size</p>
         )}
         <button
-          onClick={handleAddToCart}
+          onClick={handleBuyNow}
           disabled={!selectedSize}
           className='w-full bg-[#D8B28E] text-white py-3 uppercase tracking-widest font-semibold text-sm hover:bg-opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed'
         >
-          ADD TO CART
+          BUY NOW
         </button>
         <button
           onClick={handleAddToWishlist}

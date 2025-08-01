@@ -74,8 +74,9 @@ const CartPanel: React.FC<CartPanelProps> = ({ isOpen, onClose }) => {
                             : '/placeholder.png'
                         }
                         alt={item.name}
-                        layout='fill'
-                        objectFit='cover'
+                        fill
+                        sizes='100px'
+                        className='object-cover'
                       />
                     </div>
                     <div className='flex-grow flex flex-col'>

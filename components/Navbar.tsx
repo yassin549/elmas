@@ -1,17 +1,11 @@
 import React from 'react'
 import Link from 'next/link'
-import { FiSearch, FiShoppingBag, FiHeart } from 'react-icons/fi'
+import { FiSearch, FiHeart } from 'react-icons/fi'
 import HamburgerIcon from './HamburgerIcon'
 import { useUI } from '@/context/UIContext'
 
 const Navbar: React.FC = () => {
-  const {
-    cartCount,
-    toggleCart,
-    toggleWishlist,
-    toggleSideMenu,
-    isSideMenuOpen,
-  } = useUI()
+  const { toggleWishlist, toggleSideMenu, isSideMenuOpen } = useUI()
 
   return (
     <header className='relative top-0 left-0 w-full z-10 font-sans bg-white'>
@@ -46,17 +40,6 @@ const Navbar: React.FC = () => {
             </button>
             <button onClick={toggleWishlist} className='hover:text-gray-700'>
               <FiHeart className='h-6 w-6' strokeWidth={1.5} />
-            </button>
-            <button
-              onClick={toggleCart}
-              className='relative hover:text-gray-700'
-            >
-              <FiShoppingBag className='h-6 w-6' strokeWidth={1.5} />
-              {cartCount > 0 && (
-                <span className='absolute -top-1 -right-1.5 flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-black rounded-full'>
-                  {cartCount}
-                </span>
-              )}
             </button>
           </div>
         </div>

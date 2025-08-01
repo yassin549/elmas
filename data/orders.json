@@ -1,1 +1,121 @@
-[]
+[
+  {
+    "id": "ord_1754076000324",
+    "createdAt": "2025-08-01T19:20:00.324Z",
+    "shipping": {
+      "firstName": "yassin",
+      "lastName": "",
+      "address": "blbjh",
+      "city": "lblh",
+      "postalCode": "1111",
+      "country": "Tunisia",
+      "email": "yassin@gmail.com"
+    },
+    "items": [
+      {
+        "id": "12345-M-Green",
+        "name": "Cashmere Sweater",
+        "price": 450,
+        "sizes": [
+          {
+            "name": "S",
+            "in_stock": true
+          },
+          {
+            "name": "M",
+            "in_stock": true
+          },
+          {
+            "name": "L",
+            "in_stock": false
+          }
+        ],
+        "colors": [
+          {
+            "name": "Heather Grey",
+            "hex": "#B2B2B2",
+            "media": [
+              {
+                "type": "image",
+                "url": "/images/products/sweater-1.jpg"
+              }
+            ]
+          }
+        ],
+        "description": "A luxurious cashmere sweater.",
+        "details": [
+          "100% Cashmere",
+          "Dry clean only"
+        ],
+        "fit_details": [
+          "Classic fit"
+        ],
+        "fabric_details": [
+          "Sustainably sourced cashmere"
+        ],
+        "rating_summary": {
+          "average": 5,
+          "count": 10
+        },
+        "reviews": [],
+        "product": {
+          "id": 12345,
+          "name": "Cashmere Sweater",
+          "price": 450,
+          "sizes": [
+            {
+              "name": "S",
+              "in_stock": true
+            },
+            {
+              "name": "M",
+              "in_stock": true
+            },
+            {
+              "name": "L",
+              "in_stock": false
+            }
+          ],
+          "colors": [
+            {
+              "name": "Heather Grey",
+              "hex": "#B2B2B2",
+              "media": [
+                {
+                  "type": "image",
+                  "url": "/images/products/sweater-1.jpg"
+                }
+              ]
+            }
+          ],
+          "description": "A luxurious cashmere sweater.",
+          "details": [
+            "100% Cashmere",
+            "Dry clean only"
+          ],
+          "fit_details": [
+            "Classic fit"
+          ],
+          "fabric_details": [
+            "Sustainably sourced cashmere"
+          ],
+          "rating_summary": {
+            "average": 5,
+            "count": 10
+          },
+          "reviews": []
+        },
+        "quantity": 1,
+        "selectedSize": "M",
+        "selectedColor": "Green",
+        "images": [
+          "/images/products/sweater-1.jpg"
+        ]
+      }
+    ],
+    "total": 450,
+    "status": "Processing",
+    "paymentMethod": "Cash on Delivery",
+    "updatedAt": "2025-08-01T19:33:19.764Z"
+  }
+]
