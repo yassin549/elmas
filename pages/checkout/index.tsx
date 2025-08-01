@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useUI } from '@/context/UIContext'
+import { CartItem } from '@/types'
 import { FiCreditCard, FiLock, FiLoader } from 'react-icons/fi'
 import { toast } from 'react-hot-toast'
 import { useRouter } from 'next/router'
@@ -7,7 +8,8 @@ import Link from 'next/link'
 
 const CheckoutPage = () => {
   const router = useRouter()
-  const { cartItems, cartTotal, clearCart } = useUI()
+  const { cart, cartTotal, clearCart } = useUI()
+  const cartItems = cart?.items ?? []
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -300,7 +302,7 @@ const CheckoutPage = () => {
             </h2>
 
             <div className='space-y-4'>
-              {cartItems.map(item => (
+              {cartItems.map((item: CartItem) => (
                 <div
                   key={item.id}
                   className='flex justify-between items-center border-b border-gray-200 pb-4'
