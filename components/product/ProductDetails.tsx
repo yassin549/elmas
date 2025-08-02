@@ -1,6 +1,7 @@
 import { useState, FC } from 'react'
-import { useRouter } from 'next/router'
 import { useUI } from '@/context/UIContext'
+import { useRouter } from 'next/router'
+
 import { Product, Size } from '@/types'
 import StarRating from '@/components/product/StarRating'
 import { RiRuler2Line } from 'react-icons/ri'
@@ -17,7 +18,8 @@ const ProductDetails: FC<ProductDetailsProps> = ({
   setSelectedColorName,
 }) => {
   const router = useRouter()
-  const { addToWishlist } = useUI()
+
+  const { addToWishlist, toggleWishlist } = useUI()
   const [selectedSize, setSelectedSize] = useState<Size | null>(null)
   const [quantity, setQuantity] = useState(1)
 
@@ -47,14 +49,18 @@ const ProductDetails: FC<ProductDetailsProps> = ({
       alert('Please select a size.')
       return
     }
-    addToWishlist({
-      ...product,
-      images: selectedColor.media.map(m => m.url),
-      quantity: 1, // Wishlist adds one item
-      selectedSize: selectedSize.name,
-      selectedColor: selectedColorName,
-    })
-    alert('Added to wishlist!') // Provide user feedback
+
+    const itemToAdd = {
+      id: `${product.id}-${selectedSize.name}-${selectedColorName}`,
+      product_id: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+      image: product.images[0]?.src || '',
+    }
+
+    addToWishlist(itemToAdd)
+    toggleWishlist()
   }
 
   const selectedColor =

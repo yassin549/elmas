@@ -5,25 +5,24 @@ import {
   useEffect,
   ReactNode,
   useCallback,
+  useReducer,
 } from 'react'
 import { Cart, CartItem } from '@/types'
 import toast from 'react-hot-toast'
 
 interface UIContextType {
   cart: Cart | null
-
   isWishlistOpen: boolean
   isSideMenuOpen: boolean
   wishlistItems: CartItem[]
   addToCart: (item: Omit<CartItem, 'id'> & { id: string }) => Promise<void>
   removeFromCart: (itemId: string) => Promise<void>
   updateQuantity: (itemId: string, quantity: number) => Promise<void>
-
+  clearCart: () => Promise<void>
   toggleWishlist: () => void
   toggleSideMenu: () => void
   addToWishlist: (item: CartItem) => void
   removeFromWishlist: (id: string) => void
-  clearCart: () => Promise<void>
   cartCount: number
   cartTotal: number
 }
@@ -42,12 +41,46 @@ interface UIProviderProps {
   children: ReactNode
 }
 
+interface WishlistState {
+  wishlistItems: CartItem[]
+  isWishlistOpen: boolean
+}
+
+const initialState: WishlistState = {
+  wishlistItems: [],
+  isWishlistOpen: false,
+}
+
+type WishlistAction =
+  | { type: 'TOGGLE_WISHLIST' }
+  | { type: 'ADD_TO_WISHLIST'; payload: CartItem }
+  | { type: 'REMOVE_FROM_WISHLIST'; payload: string }
+
+const wishlistReducer = (state: WishlistState, action: WishlistAction) => {
+  switch (action.type) {
+    case 'TOGGLE_WISHLIST':
+      return { ...state, isWishlistOpen: !state.isWishlistOpen }
+    case 'ADD_TO_WISHLIST':
+      return {
+        ...state,
+        wishlistItems: [...state.wishlistItems, action.payload],
+      }
+    case 'REMOVE_FROM_WISHLIST':
+      return {
+        ...state,
+        wishlistItems: state.wishlistItems.filter(
+          item => item.id !== action.payload
+        ),
+      }
+    default:
+      return state
+  }
+}
+
 export const UIProvider = ({ children }: UIProviderProps) => {
   const [cart, setCart] = useState<Cart | null>(null)
-
-  const [isWishlistOpen, setIsWishlistOpen] = useState(false)
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false)
-  const [wishlistItems, setWishlistItems] = useState<CartItem[]>([])
+  const [wishlistState, dispatch] = useReducer(wishlistReducer, initialState)
 
   const fetchCart = useCallback(async () => {
     try {
@@ -78,7 +111,7 @@ export const UIProvider = ({ children }: UIProviderProps) => {
       if (response.ok) {
         const updatedCart = await response.json()
         setCart(updatedCart)
-        toast.success(`${newItem.name} added to cart!`)
+        toast.success(`${item.name} added to cart!`)
       } else {
         toast.error('Failed to add item to cart.')
       }
@@ -146,25 +179,15 @@ export const UIProvider = ({ children }: UIProviderProps) => {
     }
   }
 
-  const toggleWishlist = () => setIsWishlistOpen(prev => !prev)
+  const toggleWishlist = () => dispatch({ type: 'TOGGLE_WISHLIST' })
   const toggleSideMenu = () => setIsSideMenuOpen(prev => !prev)
 
-  // Wishlist remains client-side for now
   const addToWishlist = (item: CartItem) => {
-    setWishlistItems(prevItems => {
-      const existingItem = prevItems.find(i => i.id === item.id)
-      if (existingItem) {
-        return prevItems.map(i =>
-          i.id === item.id ? { ...i, quantity: i.quantity + item.quantity } : i
-        )
-      } else {
-        return [...prevItems, item]
-      }
-    })
+    dispatch({ type: 'ADD_TO_WISHLIST', payload: item })
   }
 
   const removeFromWishlist = (id: string) => {
-    setWishlistItems(prevItems => prevItems.filter(item => item.id !== id))
+    dispatch({ type: 'REMOVE_FROM_WISHLIST', payload: id })
   }
 
   const cartCount =
@@ -180,21 +203,19 @@ export const UIProvider = ({ children }: UIProviderProps) => {
 
   const value = {
     cart,
-
-    isWishlistOpen,
+    isWishlistOpen: wishlistState.isWishlistOpen,
     isSideMenuOpen,
+    wishlistItems: wishlistState.wishlistItems,
     addToCart,
     removeFromCart,
     updateQuantity,
-
+    clearCart,
     toggleWishlist,
     toggleSideMenu,
-    clearCart,
-    cartCount,
-    cartTotal,
-    wishlistItems,
     addToWishlist,
     removeFromWishlist,
+    cartCount,
+    cartTotal,
   }
 
   return <UIContext.Provider value={value}>{children}</UIContext.Provider>

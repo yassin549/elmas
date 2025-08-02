@@ -4,9 +4,11 @@ import { useRouter } from 'next/router'
 import type { AppProps } from 'next/app'
 import { ThemeProvider } from '../context/ThemeContext'
 import { UIProvider } from '../context/UIContext'
+
 import { AuthProvider } from '../context/AuthContext'
 import { ParallaxProvider } from 'react-scroll-parallax'
 import MainLayout from '../components/layout/MainLayout'
+
 import { CircleLoader } from '../components'
 import '../styles/globals.css'
 
