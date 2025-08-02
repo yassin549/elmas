@@ -40,24 +40,36 @@ const CheckoutPage = () => {
 
       if (productId && quantity && size && color) {
         const fetchProduct = async () => {
+          setIsBuyNowLoading(true)
           try {
             const response = await fetch(`/api/products/${productId}`)
             if (!response.ok) {
               throw new Error('Product not found.')
             }
             const product: Product = await response.json()
+
             const selectedColorData = product.colors.find(c => c.name === color)
-            const imageSource =
-              selectedColorData || (product.colors && product.colors[0])
+            const fallbackColorData = product.colors[0]
+            let finalImages: string[] = []
+
+            if (selectedColorData && selectedColorData.media.length > 0) {
+              finalImages = selectedColorData.media.map(m => m.url)
+            } else if (
+              fallbackColorData &&
+              fallbackColorData.media.length > 0
+            ) {
+              finalImages = fallbackColorData.media.map(m => m.url)
+            }
 
             setBuyNowItem({
-              ...product,
               id: `${product.id}-${size}-${color}`,
-              product,
+              name: product.name,
+              price: product.price,
               quantity: parseInt(quantity as string, 10),
               selectedSize: size as string,
               selectedColor: color as string,
-              images: imageSource ? imageSource.media.map(m => m.url) : [],
+              images: finalImages,
+              product: product,
             })
           } catch (error) {
             console.error('Failed to fetch product for Buy Now:', error)
@@ -359,29 +371,36 @@ const CheckoutPage = () => {
               Order Summary
             </h2>
             <div className='space-y-4'>
-              {itemsToDisplay.map(item => (
-                <div key={item.id} className='flex items-center space-x-4'>
-                  <Image
-                    src={item.images[0]}
-                    alt={item.name}
-                    width={80}
-                    height={80}
-                    className='w-20 h-20 object-cover rounded-lg'
-                  />
-                  <div className='flex-1'>
-                    <p className='font-semibold text-gray-800'>{item.name}</p>
-                    <p className='text-sm text-gray-500'>
-                      {item.selectedSize} / {item.selectedColor}
-                    </p>
-                    <p className='text-sm text-gray-500'>
-                      Qty: {item.quantity}
-                    </p>
-                  </div>
-                  <p className='font-semibold text-gray-800'>
-                    {(item.price * item.quantity).toFixed(3)} TND
-                  </p>
-                </div>
-              ))}
+              {itemsToDisplay.map(
+                item =>
+                  item &&
+                  item.images &&
+                  item.images.length > 0 && (
+                    <div key={item.id} className='flex items-center space-x-4'>
+                      <Image
+                        src={item.images[0]}
+                        alt={item.name}
+                        width={80}
+                        height={80}
+                        className='w-20 h-20 object-cover rounded-lg'
+                      />
+                      <div className='flex-1'>
+                        <p className='font-semibold text-gray-800'>
+                          {item.name}
+                        </p>
+                        <p className='text-sm text-gray-500'>
+                          {item.selectedSize} / {item.selectedColor}
+                        </p>
+                        <p className='text-sm text-gray-500'>
+                          Qty: {item.quantity}
+                        </p>
+                      </div>
+                      <p className='font-semibold text-gray-800'>
+                        {(item.price * item.quantity).toFixed(3)} TND
+                      </p>
+                    </div>
+                  )
+              )}
             </div>
             <div className='border-t border-gray-200 mt-6 pt-6 space-y-4'>
               <div className='flex justify-between text-gray-600'>

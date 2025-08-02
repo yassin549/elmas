@@ -30,7 +30,7 @@ export const products = [
       {
         name: 'Heather Grey',
         hex: '#B2B2B2',
-        media: [{ type: 'image', url: '/images/products/sweater-1.jpg' }],
+        media: [{ type: 'image', url: '/images/products/1.webp' }],
       },
     ],
     description: 'A luxurious cashmere sweater.',

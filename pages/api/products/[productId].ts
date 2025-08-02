@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { products } from '../../../data/products'
+import { products } from '../../../data/products.js'
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const { productId } = req.query
