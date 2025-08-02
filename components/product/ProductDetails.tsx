@@ -56,7 +56,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
       name: product.name,
       price: product.price,
       quantity: 1,
-      image: product.images[0]?.src || '',
+      images: product.images,
     }
 
     addToWishlist(itemToAdd)
