@@ -111,7 +111,7 @@ export const UIProvider = ({ children }: UIProviderProps) => {
       if (response.ok) {
         const updatedCart = await response.json()
         setCart(updatedCart)
-        toast.success(`${item.name} added to cart!`)
+        toast.success(`${newItem.name} added to cart!`)
       } else {
         toast.error('Failed to add item to cart.')
       }
